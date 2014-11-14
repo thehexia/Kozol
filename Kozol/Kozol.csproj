@@ -188,6 +188,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\ChatRoles.cs" />
+    <Compile Include="Models\Friendship.cs" />
+    <Compile Include="Models\Invite.cs" />
+    <Compile Include="Models\KozolDbContext.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
