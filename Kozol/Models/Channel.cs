@@ -39,5 +39,9 @@ namespace Kozol.Models
 
         [Required]
         public bool InviteMode { get; set; }
+
+        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Speaker> Speakers { get; set; }
+        public virtual ICollection<Administrator> Admins { get; set; }
     }
 }

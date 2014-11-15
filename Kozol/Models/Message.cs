@@ -24,11 +24,10 @@ namespace Kozol.Models
         [ForeignKey("SenderId")]
         public virtual UserProfile Sender { get; set; }
 
-        [Required]
         public int ReceiverId { get; set; }
 
         [ForeignKey("ReceiverId")]
-        public virtual UserProfile Receiver { get; set; }
+        public virtual Channel Receiver { get; set; }
     }
 
     public class Image
