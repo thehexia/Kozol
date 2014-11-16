@@ -17,7 +17,7 @@ namespace Kozol.Controllers
         {
             var channels = from Channels in db.Channels
                            select Channels;
-            return View(channels);
+            return View(channels.ToList());
         }
 
         public EmptyResult AddChannel()
@@ -27,7 +27,7 @@ namespace Kozol.Controllers
             c.Name = "Test";
             c.Capacity = 2;
             c.Created = DateTime.Now;
-            c.Creator = users.UserProfiles.FirstOrDefault(u => u.UserId == WebSecurity.CurrentUserId);
+            c.CreatorId = WebSecurity.CurrentUserId;
             c.AdminMode = false;
             c.InviteMode = false;
             c.QuietMode = false;

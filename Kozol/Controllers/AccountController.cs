@@ -14,7 +14,6 @@ using Kozol.Models;
 namespace Kozol.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         //
