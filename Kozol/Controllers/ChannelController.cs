@@ -8,6 +8,8 @@ using Kozol.Models;
 
 namespace Kozol.Controllers
 {
+    using System.Diagnostics;
+
     public class ChannelController : Controller
     {
         KozolDbContext db = new KozolDbContext();
@@ -23,6 +25,9 @@ namespace Kozol.Controllers
         [Authorize]
         public EmptyResult AddChannel(Channel channel)
         {
+            channel.CreatorId = WebSecurity.CurrentUserId;
+            channel.Created = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.Channels.Add(channel);

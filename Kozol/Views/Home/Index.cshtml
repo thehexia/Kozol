@@ -4,5 +4,13 @@
 
 @Html.ActionLink("Channels", "Index", "Channel");
 
-@Html.ActionLink("AddChannel", "AddChannel", "Channel");
+@Html.ActionLink("AddChannel", "AddChannel", "Channel", 
+    new { Name = "test", 
+        CreatorId = WebSecurity.CurrentUserId,
+        Created = DateTime.Now, 
+        Capacity = 2, 
+        SlowMode = false, 
+        AdminMode = false, 
+        QuietMode = false, 
+        InviteMode = false }, null);
 

@@ -210,6 +210,8 @@
     <Compile Include="Models\Invite.cs" />
     <Compile Include="Models\KozolDbContext.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
