@@ -25,6 +25,16 @@ namespace Kozol.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        public int? ImageId { get; set; }
+        [ForeignKey("ImageId")]
+        public virtual Image Avatar { get; set; }
+
+        public string PublicKey { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -75,6 +85,12 @@ namespace Kozol.Models
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

@@ -44,6 +44,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -182,11 +184,25 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChannelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411142238390_Kv1.cs" />
+    <Compile Include="Migrations\201411142238390_Kv1.Designer.cs">
+      <DependentUpon>201411142238390_Kv1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411152336472_ExpandProfile.cs" />
+    <Compile Include="Migrations\201411152336472_ExpandProfile.Designer.cs">
+      <DependentUpon>201411152336472_ExpandProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411152358056_Avatar.cs" />
+    <Compile Include="Migrations\201411152358056_Avatar.Designer.cs">
+      <DependentUpon>201411152358056_Avatar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\ChatRoles.cs" />
@@ -197,6 +213,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-Kozol-20141113220514.mdf" />
+    <Content Include="App_Data\aspnet-Kozol-20141113220514_log.ldf">
+      <DependentUpon>aspnet-Kozol-20141113220514.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -307,12 +327,24 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Content Include="Views\Channel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201411142238390_Kv1.resx">
+      <DependentUpon>201411142238390_Kv1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411152336472_ExpandProfile.resx">
+      <DependentUpon>201411152336472_ExpandProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411152358056_Avatar.resx">
+      <DependentUpon>201411152358056_Avatar.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
