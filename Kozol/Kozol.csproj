@@ -194,13 +194,13 @@
     <Compile Include="Migrations\201411142238390_Kv1.Designer.cs">
       <DependentUpon>201411142238390_Kv1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201411152336472_ExpandProfile.cs" />
-    <Compile Include="Migrations\201411152336472_ExpandProfile.Designer.cs">
-      <DependentUpon>201411152336472_ExpandProfile.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201411152358056_Avatar.cs" />
     <Compile Include="Migrations\201411152358056_Avatar.Designer.cs">
       <DependentUpon>201411152358056_Avatar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411172033005_UserExp.cs" />
+    <Compile Include="Migrations\201411172033005_UserExp.Designer.cs">
+      <DependentUpon>201411172033005_UserExp.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -341,12 +341,15 @@
     <EmbeddedResource Include="Migrations\201411142238390_Kv1.resx">
       <DependentUpon>201411142238390_Kv1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411152336472_ExpandProfile.resx">
-      <DependentUpon>201411152336472_ExpandProfile.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411152358056_Avatar.resx">
       <DependentUpon>201411152358056_Avatar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411172033005_UserExp.resx">
+      <DependentUpon>201411172033005_UserExp.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\UsersContext\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

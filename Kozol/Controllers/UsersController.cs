@@ -13,23 +13,23 @@ namespace Kozol.Controllers
         KozolDbContext db = new KozolDbContext();
         UsersContext users = new UsersContext();
 
-        public ActionResult UserList()
+        public JsonResult UserList()
         {
             var userList = from Users in users.UserProfiles
                            select Users;
-            return View(userList.ToList());
+            return Json(userList.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UserEmailLookup(string username)
+        public JsonResult UserEmailLookup(string username)
         {
             var email = (from Users in users.UserProfiles
                          where Users.UserName.Contains(username)
                          select Users).FirstOrDefault();
 
-            return View(email);
+            return Json(email, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UserMessageHistory(string username)
+        public JsonResult UserMessageHistory(string username)
         {
             var msgs = from Users in users.UserProfiles
                        join Messages in db.Messages
@@ -37,7 +37,7 @@ namespace Kozol.Controllers
                        where Users.UserName == username
                        select Messages.Text;
 
-            return View(msgs.ToList());
+            return Json(msgs.ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }
