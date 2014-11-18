@@ -91,7 +91,6 @@ namespace Kozol.Utilities {
                         Created = DateTime.Now,
                         Username = username,
                         Public_Key_n = "", // TODO: Actually generate public key
-                        Public_Key_e = ""
                     };
 
                     UserRoleMap defaultRole = new UserRoleMap {

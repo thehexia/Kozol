@@ -118,7 +118,6 @@
     <Property Name="Avatar" Type="uniqueidentifier" Nullable="true" />
     <Property Name="Avatar_Custom" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="Public_Key_n" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Public_Key_e" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Friendships">
     <Key>
@@ -482,7 +481,6 @@
           <Property Name="Avatar" Type="Guid" Nullable="true" />
           <Property Name="Avatar_Custom" Type="Boolean" Nullable="false" DefaultValue="False" />
           <Property Name="Public_Key_n" Type="String" Nullable="false" MaxLength="Max" />
-          <Property Name="Public_Key_e" Type="String" Nullable="false" MaxLength="Max" />
           <NavigationProperty Name="Roles" Relationship="Kozol.Models.UserRoleMapUser" FromRole="User" ToRole="UserRole" />
         </EntityType>
         <Association Name="Sender">
@@ -684,7 +682,6 @@
           <ScalarProperty Name="Avatar" ColumnName="Avatar" />
           <ScalarProperty Name="Avatar_Custom" ColumnName="Avatar_Custom" />
           <ScalarProperty Name="Public_Key_n" ColumnName="Public_Key_n" />
-          <ScalarProperty Name="Public_Key_e" ColumnName="Public_Key_e" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
