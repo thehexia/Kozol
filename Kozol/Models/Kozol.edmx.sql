@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/17/2014 21:35:20
+-- Date Created: 11/18/2014 11:08:41
 -- Generated from EDMX file: C:\Users\Evan\My Programming\Kozol\Kozol\Models\Kozol.edmx
 -- --------------------------------------------------
 
@@ -56,11 +56,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Attachment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Images] DROP CONSTRAINT [FK_Attachment];
 GO
-IF OBJECT_ID(N'[dbo].[FK_UserRoleMap_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UserRoleMap] DROP CONSTRAINT [FK_UserRoleMap_User];
+IF OBJECT_ID(N'[dbo].[FK_UserRoleMapUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserRoleMaps] DROP CONSTRAINT [FK_UserRoleMapUser];
 GO
-IF OBJECT_ID(N'[dbo].[FK_UserRoleMap_UserRole]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UserRoleMap] DROP CONSTRAINT [FK_UserRoleMap_UserRole];
+IF OBJECT_ID(N'[dbo].[FK_UserRoleMapRole]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserRoleMaps] DROP CONSTRAINT [FK_UserRoleMapRole];
 GO
 
 -- --------------------------------------------------
@@ -85,6 +85,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Images]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Images];
 GO
+IF OBJECT_ID(N'[dbo].[UserRoleMaps]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserRoleMaps];
+GO
 IF OBJECT_ID(N'[dbo].[UserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UserRoles];
 GO
@@ -93,9 +96,6 @@ IF OBJECT_ID(N'[dbo].[Administrators]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Speakers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Speakers];
-GO
-IF OBJECT_ID(N'[dbo].[UserRoleMap]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[UserRoleMap];
 GO
 
 -- --------------------------------------------------
@@ -140,8 +140,8 @@ CREATE TABLE [dbo].[Users] (
     [Username] nvarchar(20)  NOT NULL,
     [Avatar] uniqueidentifier  NULL,
     [Avatar_Custom] bit  NOT NULL,
-    [Public_Key_n] int  NOT NULL,
-    [Public_Key_e] int  NOT NULL
+    [Public_Key_n] nvarchar(max)  NOT NULL,
+    [Public_Key_e] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -155,7 +155,7 @@ GO
 
 -- Creating table 'Invites'
 CREATE TABLE [dbo].[Invites] (
-    [Shared_Key] nvarchar(max)  NOT NULL,
+    [Shared_Key] nvarchar(max)  NULL,
     [SenderID] int  NOT NULL,
     [ReceiverID] int  NOT NULL,
     [ChannelID] int  NOT NULL

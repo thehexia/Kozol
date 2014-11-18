@@ -117,8 +117,8 @@
     <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Avatar" Type="uniqueidentifier" Nullable="true" />
     <Property Name="Avatar_Custom" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="Public_Key_n" Type="int" Nullable="false" />
-    <Property Name="Public_Key_e" Type="int" Nullable="false" />
+    <Property Name="Public_Key_n" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Public_Key_e" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Friendships">
     <Key>
@@ -135,7 +135,7 @@
       <PropertyRef Name="ReceiverID" />
       <PropertyRef Name="ChannelID" />
     </Key>
-    <Property Name="Shared_Key" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Shared_Key" Type="nvarchar(max)" Nullable="true" />
     <Property Name="SenderID" Type="int" Nullable="false" />
     <Property Name="ReceiverID" Type="int" Nullable="false" />
     <Property Name="ChannelID" Type="int" Nullable="false" />
@@ -481,8 +481,8 @@
           <Property Name="Username" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="Avatar" Type="Guid" Nullable="true" />
           <Property Name="Avatar_Custom" Type="Boolean" Nullable="false" DefaultValue="False" />
-          <Property Name="Public_Key_n" Type="Int32" Nullable="false" />
-          <Property Name="Public_Key_e" Type="Int32" Nullable="false" />
+          <Property Name="Public_Key_n" Type="String" Nullable="false" MaxLength="Max" />
+          <Property Name="Public_Key_e" Type="String" Nullable="false" MaxLength="Max" />
           <NavigationProperty Name="Roles" Relationship="Kozol.Models.UserRoleMapUser" FromRole="User" ToRole="UserRole" />
         </EntityType>
         <Association Name="Sender">
@@ -542,7 +542,7 @@
             <PropertyRef Name="ReceiverID" />
             <PropertyRef Name="ChannelID" />
           </Key>
-          <Property Type="String" Name="Shared_Key" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="Shared_Key" Nullable="true" MaxLength="Max" />
           <NavigationProperty Name="Sender" Relationship="Kozol.Models.InvitesSent" FromRole="Invite" ToRole="User" />
           <NavigationProperty Name="Receiver" Relationship="Kozol.Models.InvitesReceived" FromRole="Invite" ToRole="User" />
           <NavigationProperty Name="Channel" Relationship="Kozol.Models.Invitations" FromRole="Invite" ToRole="Channel" />

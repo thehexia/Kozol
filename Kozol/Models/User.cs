@@ -40,8 +40,8 @@ namespace Kozol.Models
         public string Username { get; set; }
         public Nullable<System.Guid> Avatar { get; set; }
         public bool Avatar_Custom { get; set; }
-        public int Public_Key_n { get; set; }
-        public int Public_Key_e { get; set; }
+        public string Public_Key_n { get; set; }
+        public string Public_Key_e { get; set; }
     
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<Channel> Administrations { get; set; }

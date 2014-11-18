@@ -90,8 +90,8 @@ namespace Kozol.Utilities {
                         Password = KozolUtilities.HashStringSHA256(password, salt),
                         Created = DateTime.Now,
                         Username = username,
-                        Public_Key_n = 1, // TODO: Actually generate public key
-                        Public_Key_e = 1
+                        Public_Key_n = "", // TODO: Actually generate public key
+                        Public_Key_e = ""
                     };
 
                     UserRoleMap defaultRole = new UserRoleMap {
