@@ -2,25 +2,3 @@
     ViewBag.Title = "Home Page";
 }
 
-@Html.ActionLink("Channels", "Index", "Channel");
-
-@Html.ActionLink("ChannelJson", "ChannelList", "Channel");
-
-@Html.ActionLink("UserList", "UserList", "Users");
-
-@Html.ActionLink("AddChannel", "AddChannel", "Channel", 
-    new { Name = "test", 
-        CreatorId = WebSecurity.CurrentUserId,
-        Created = DateTime.Now, 
-        Capacity = 2, 
-        SlowMode = false, 
-        AdminMode = false, 
-        QuietMode = false, 
-        InviteMode = false }, null);
-
-@Html.ActionLink("AddMessage", "AddMessage", "Message", 
-    new { Timestamp = DateTime.Now,
-          Text = "Hello",
-          SenderId = WebSecurity.CurrentUserId,
-          ReceiverId = 1 }, null);
-

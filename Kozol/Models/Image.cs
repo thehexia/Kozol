@@ -12,14 +12,10 @@ namespace Kozol.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Message
+    public partial class Image
     {
-        public int ID { get; set; }
-        public System.DateTime Timestamp { get; set; }
-        public string Text { get; set; }
+        public System.Guid ID { get; set; }
     
-        public virtual Channel Destination { get; set; }
-        public virtual User Sender { get; set; }
-        public virtual Image Image { get; set; }
+        public virtual Message Message { get; set; }
     }
 }

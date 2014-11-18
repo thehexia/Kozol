@@ -206,40 +206,59 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChannelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\MessageHub.cs" />
-    <Compile Include="Migrations\201411172311552_Kozolv1.cs" />
-    <Compile Include="Migrations\201411172311552_Kozolv1.Designer.cs">
-      <DependentUpon>201411172311552_Kozolv1.cs</DependentUpon>
+    <Compile Include="Models\Channel.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Channel.cs" />
-    <Compile Include="Models\ChatRoles.cs" />
-    <Compile Include="Models\Friendship.cs" />
-    <Compile Include="Models\Invite.cs" />
-    <Compile Include="Models\KozolDbContext.cs" />
-    <Compile Include="Models\Message.cs" />
-    <Compile Include="Controllers\MessageController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Models\Friendship.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Image.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Invite.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Kozol.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Kozol.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Kozol.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Kozol.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Kozol.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRole.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRoleMap.cs">
+      <DependentUpon>Kozol.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\KozolUtilities.cs" />
+    <Compile Include="Utilities\UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-Kozol-20141113220514.mdf" />
-    <Content Include="App_Data\aspnet-Kozol-20141113220514_log.ldf">
-      <DependentUpon>aspnet-Kozol-20141113220514.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -252,7 +271,25 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <EntityDeploy Include="Models\Kozol.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Kozol.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Kozol.edmx.diagram">
+      <DependentUpon>Kozol.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Kozol.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Kozol.Context.cs</LastGenOutput>
+      <DependentUpon>Kozol.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Kozol.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Kozol.cs</LastGenOutput>
+      <DependentUpon>Kozol.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Models\Kozol.edmx.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -286,24 +323,13 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Channel\Index.cshtml" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -312,9 +338,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201411172311552_Kozolv1.resx">
-      <DependentUpon>201411172311552_Kozolv1.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

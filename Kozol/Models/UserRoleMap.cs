@@ -12,14 +12,12 @@ namespace Kozol.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Message
+    public partial class UserRoleMap
     {
-        public int ID { get; set; }
-        public System.DateTime Timestamp { get; set; }
-        public string Text { get; set; }
+        public int UserID { get; set; }
+        public int RoleID { get; set; }
     
-        public virtual Channel Destination { get; set; }
-        public virtual User Sender { get; set; }
-        public virtual Image Image { get; set; }
+        public virtual User User { get; set; }
+        public virtual UserRole Role { get; set; }
     }
 }

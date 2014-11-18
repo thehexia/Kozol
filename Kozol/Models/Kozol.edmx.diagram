@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7e1f07a3cf0f44bcabf5318b0cabf16b" Name="Diagram1" ZoomLevel="89" >
+        <EntityTypeShape EntityType="Kozol.Models.Message" Width="1.5" PointX="4.5" PointY="1.125" />
+        <EntityTypeShape EntityType="Kozol.Models.Channel" Width="1.5" PointX="1.5" PointY="1.375" />
+        <AssociationConnector Association="Kozol.Models.Destination" />
+        <EntityTypeShape EntityType="Kozol.Models.User" Width="1.5" PointX="4.625" PointY="3.875" />
+        <AssociationConnector Association="Kozol.Models.Sender" />
+        <AssociationConnector Association="Kozol.Models.Administrators" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="Kozol.Models.Creator" />
+        <AssociationConnector Association="Kozol.Models.Speakers" />
+        <EntityTypeShape EntityType="Kozol.Models.Friendship" Width="1.5" PointX="7.125" PointY="4.125" />
+        <AssociationConnector Association="Kozol.Models.UserFriendship" />
+        <AssociationConnector Association="Kozol.Models.UserFriendship1" />
+        <EntityTypeShape EntityType="Kozol.Models.Invite" Width="1.5" PointX="1.5" PointY="5.5" />
+        <AssociationConnector Association="Kozol.Models.InvitesSent" />
+        <AssociationConnector Association="Kozol.Models.InvitesReceived" />
+        <AssociationConnector Association="Kozol.Models.Invitations" />
+        <EntityTypeShape EntityType="Kozol.Models.Image" Width="1.5" PointX="7.125" PointY="1.625" />
+        <AssociationConnector Association="Kozol.Models.Attachment" />
+        <EntityTypeShape EntityType="Kozol.Models.UserRoleMap" Width="1.5" PointX="7.125" PointY="6.875" />
+        <AssociationConnector Association="Kozol.Models.UserRoleMapUser" />
+        <EntityTypeShape EntityType="Kozol.Models.UserRole" Width="1.5" PointX="9.5" PointY="6.875" />
+        <AssociationConnector Association="Kozol.Models.UserRoleMapRole" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
