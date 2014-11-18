@@ -209,7 +209,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -263,6 +262,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Kozol.css">
+      <DependentUpon>Kozol.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Kozol.min.css">
+      <DependentUpon>Kozol.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -288,6 +293,10 @@
       <LastGenOutput>Kozol.cs</LastGenOutput>
       <DependentUpon>Kozol.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\Kozol.less" />
+    <Content Include="Content\Kozol.css.map">
+      <DependentUpon>Kozol.css</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Models\Kozol.edmx.sql" />
     <Content Include="Scripts\bootstrap.js" />
@@ -298,6 +307,9 @@
     <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
     <Content Include="Scripts\knockout-3.2.0.debug.js" />
     <Content Include="Scripts\knockout-3.2.0.js" />
+    <Content Include="Scripts\Kozol\jquery-2.1.1.js" />
+    <Content Include="Scripts\Kozol\jquery.signalR-2.1.2.js" />
+    <Content Include="Scripts\Kozol\knockout-3.2.0.debug.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Web.config" />
@@ -330,6 +342,9 @@
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Kozol\Login.cshtml" />
+    <Content Include="Views\Kozol\Chat.cshtml" />
+    <Content Include="Views\Kozol\Scripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

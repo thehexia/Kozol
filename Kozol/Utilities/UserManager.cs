@@ -11,7 +11,8 @@ namespace Kozol.Utilities {
     public enum CreateUserStatus : sbyte {
         Success = 1,
         Failure = -1,
-        EmailTaken = -2
+        EmailTaken = -2,
+        UsernameTaken = -3
     }
 
     public enum ValidateUserStatus : sbyte {
@@ -61,11 +62,6 @@ namespace Kozol.Utilities {
         InvalidPassword = -4
     }
 
-    public enum LinkFacebookStatus : sbyte {
-        Success = 1,
-        Failure = -1
-    }
-
     #endregion
 
     public class UserManager {
@@ -81,6 +77,8 @@ namespace Kozol.Utilities {
                 using (KozolContainer db = new KozolContainer()) {
                     if (db.Users.Any(u => u.Email.ToLower() == email.ToLower()))
                         return CreateUserStatus.EmailTaken;
+                    if (db.Users.Any(u => u.Username.ToLower() == username.ToLower()))
+                        return CreateUserStatus.UsernameTaken;
 
                     byte[] salt = KozolUtilities.CreateSalt();
                     int userId = GetNextUserId();
@@ -91,7 +89,9 @@ namespace Kozol.Utilities {
                         Salt = Convert.ToBase64String(salt),
                         Password = KozolUtilities.HashStringSHA256(password, salt),
                         Created = DateTime.Now,
-                        Username = username
+                        Username = username,
+                        Public_Key_n = 1, // TODO: Actually generate public key
+                        Public_Key_e = 1
                     };
 
                     UserRoleMap defaultRole = new UserRoleMap {

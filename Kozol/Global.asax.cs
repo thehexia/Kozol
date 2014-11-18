@@ -8,21 +8,18 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Kozol.Utilities;
 
-namespace Kozol
-{
+namespace Kozol {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : System.Web.HttpApplication
-    {
-        protected void Application_Start()
-        {
-            Database.SetInitializer(new DatabaseSeeder());
+    public class MvcApplication : System.Web.HttpApplication {
+        protected void Application_Start() {
+            KozolUtilities.SeedDatabase();
 
             AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }

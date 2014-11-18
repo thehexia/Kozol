@@ -48,48 +48,48 @@ namespace Kozol.Utilities {
             byte[] saltedValue = value.Concat(salt).ToArray();
             return Convert.ToBase64String(new SHA256Managed().ComputeHash(saltedValue));
         }
-    }
 
-    public class DatabaseSeeder : DropCreateDatabaseIfModelChanges<KozolContainer> {
-        protected override void Seed(KozolContainer context) {
-            // Insert required base user, admin, and speaker roles.
-            var defaultRole = context.UserRoles
-                .Where(r => r.ID == 1)
-                .FirstOrDefault();
-            if (defaultRole == null) {
-                context.UserRoles.Add(new UserRole {
-                    ID = 1,
-                    Name = "User"
-                });
-            } else if (defaultRole.Name != "User") {
-                defaultRole.Name = "User";
+        public static void SeedDatabase() {
+            using (KozolContainer context = new KozolContainer()) {
+                // Insert required base user, admin, and speaker roles.
+                var defaultRole = context.UserRoles
+                    .Where(r => r.ID == 1)
+                    .FirstOrDefault();
+                if (defaultRole == null) {
+                    context.UserRoles.Add(new UserRole {
+                        ID = 1,
+                        Name = "User"
+                    });
+                } else if (defaultRole.Name != "User") {
+                    defaultRole.Name = "User";
+                }
+
+                var adminRole = context.UserRoles
+                    .Where(r => r.ID == 2)
+                    .FirstOrDefault();
+                if (adminRole == null) {
+                    context.UserRoles.Add(new UserRole {
+                        ID = 2,
+                        Name = "Global Admin"
+                    });
+                } else if (adminRole.Name != "Global Admin") {
+                    adminRole.Name = "Global Admin";
+                }
+
+                var speakerRole = context.UserRoles
+                    .Where(r => r.ID == 3)
+                    .FirstOrDefault();
+                if (speakerRole == null) {
+                    context.UserRoles.Add(new UserRole {
+                        ID = 3,
+                        Name = "Global Speaker"
+                    });
+                } else if (speakerRole.Name != "Global Speaker") {
+                    speakerRole.Name = "Global Speaker";
+                }
+
+                context.SaveChanges();
             }
-
-            var adminRole = context.UserRoles
-                .Where(r => r.ID == 2)
-                .FirstOrDefault();
-            if (adminRole == null) {
-                context.UserRoles.Add(new UserRole {
-                    ID = 2,
-                    Name = "Global Admin"
-                });
-            } else if (adminRole.Name != "Global Admin") {
-                adminRole.Name = "Global Admin";
-            }
-
-            var speakerRole = context.UserRoles
-                .Where(r => r.ID == 3)
-                .FirstOrDefault();
-            if (speakerRole == null) {
-                context.UserRoles.Add(new UserRole {
-                    ID = 3,
-                    Name = "Global Speaker"
-                });
-            } else if (speakerRole.Name != "Global Speaker") {
-                speakerRole.Name = "Global Speaker";
-            }
-
-            context.SaveChanges();
 
             UserManager.CreateUser("testUser@test.com", "testPassword", "TestUser");
 
