@@ -42,7 +42,8 @@
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 
-        @Html.Partial("../Kozol/Scripts")
-        @Html.Partial("../Kozol/Chat")
+    @Html.Partial("../Kozol/Scripts")
+    @Html.Partial("../Kozol/Login", new Kozol.Models.LoginModel())
+    @Html.Partial("../Kozol/Chat")
 </body>
 </html>
