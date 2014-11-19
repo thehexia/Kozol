@@ -209,6 +209,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\ChannelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -255,6 +256,7 @@
     <Compile Include="Models\UserRoleMap.cs">
       <DependentUpon>Kozol.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\ChannelViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\KozolUtilities.cs" />
     <Compile Include="Utilities\UserManager.cs" />
@@ -349,6 +351,7 @@
     <Content Include="Views\Kozol\Login.cshtml" />
     <Content Include="Views\Kozol\Chat.cshtml" />
     <Content Include="Views\Kozol\Scripts.cshtml" />
+    <Content Include="Views\Channel\ChannelIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

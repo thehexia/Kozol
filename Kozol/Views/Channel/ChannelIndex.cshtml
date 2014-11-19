@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "ChannelIndex";
+}
+
+@model List<Kozol.Models.Channel>
+
+<h2>Channel Index</h2>
+
+@foreach (var c in Model)
+{
+    <li>
+        @c.Name owned by @c.Creator.Username
+    </li>
+}
+
+@Html.ActionLink("Channels", "Index", "Channel");
+
+@Html.ActionLink("ChannelJson", "ChannelList", "Channel");
+
+@Html.ActionLink("AddChannel", "AddChannel", "Channel",
+    new
+    {
+        Name = "test",
+        CreatorId = Session["userId"],
+        Created = DateTime.Now,
+        Capacity = 2,
+        SlowMode = false,
+        AdminMode = false,
+        QuietMode = false,
+        InviteMode = false
+    }, null);
