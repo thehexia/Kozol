@@ -89,9 +89,25 @@ namespace Kozol.Controllers
 
         public JsonResult UpdateChannel(Channel channel)
         {
+            //current user trying to execute the action
+            try
+            {
+                var currentUser = db.Users.Find((int)Session["userId"]);
+                var updateTarget = db.Channels.Find(channel.ID);
+                //check if current user is an admin
+                if(!updateTarget.Administrators.Contains(currentUser))
+                    return Json(new { success = false, reason = "userid: " + (int)Session["userId"] + " is not an admin of this channel: " + channel.ID }, 
+                                JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, reason = "current user does not exist" }, JsonRequestBehavior.AllowGet);
+            }
+                
             if (ModelState.IsValid)
             {
                 var target = db.Channels.Find(channel.ID);
+
                 target.Name = channel.Name;
                 target.Capacity = channel.Capacity;
                 target.Mode_Admin = channel.Mode_Admin;
@@ -100,19 +116,31 @@ namespace Kozol.Controllers
                 target.Mode_Slow = channel.Mode_Slow;
 
                 db.SaveChanges();
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, reason = "success" }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = false, reason = "failed to add model." }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult AddAdmin(int adminID, int channelID)
         {
-            //get the channel
-            var channel = db.Channels.Find(channelID);
-            //get the user
-            var user = db.Users.Find(adminID);
-            //current user
-            var currentUser = db.Users.Find((int)Session["userId"]);
+            Channel channel;
+            User user;
+            User currentUser;
+            try
+            {
+                //get the channel
+                channel = db.Channels.Find(channelID);
+                //get the user
+                user = db.Users.Find(adminID);
+                //current user
+                currentUser = db.Users.Find((int)Session["userId"]);
+            }
+            catch (Exception e) 
+            {
+                channel = null;
+                user = null;
+                currentUser = null;
+            }
 
             //confirm neither are null
             if (channel != null && user != null && ((int)Session["userId"] == channel.Creator.ID) || (channel.Administrators.Contains(currentUser)) )

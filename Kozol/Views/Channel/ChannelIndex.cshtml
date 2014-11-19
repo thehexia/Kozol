@@ -13,8 +13,6 @@
     </li>
 }
 
-@Html.ActionLink("Channels", "Index", "Channel");
-
 @Html.ActionLink("ChannelJson", "ChannelList", "Channel");
 
 @Html.ActionLink("AddChannel", "AddChannel", "Channel",
@@ -29,6 +27,8 @@
         QuietMode = false,
         InviteMode = false
     }, null);
+
+@Html.ActionLink("Update Channel", "UpdateChannel", "Channel", new { ID = 1, Name = "new name", Mode_Admin = false, Mode_Quiet = true, Mode_Slow = true, Mode_Invite = false}, null);
 
 @Html.ActionLink("Channel Participants", "GetChannelParticipants", "Channel", new { channelID = 1 }, null);
 
