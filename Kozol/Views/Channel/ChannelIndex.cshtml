@@ -29,3 +29,7 @@
         QuietMode = false,
         InviteMode = false
     }, null);
+
+@Html.ActionLink("Channel Participants", "GetChannelParticipants", "Channel", new { channelID = 1 }, null);
+
+@Html.ActionLink("Add Admin", "AddAdmin", "Channel", new { adminID = 1, channelID = 1 }, null);

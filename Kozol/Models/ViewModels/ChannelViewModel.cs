@@ -9,6 +9,7 @@ namespace Kozol.Models
     public class ChannelViewModel
     {
         public int ID { get; set; }
+        public int CreatorID { get; set; }
         public string Name { get; set; }
         public System.DateTime Created { get; set; }
         public int Capacity { get; set; }

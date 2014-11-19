@@ -27,13 +27,14 @@ namespace Kozol.Controllers
                            {
                                ID = channel.ID,
                                Name = channel.Name,
+                               CreatorID = channel.Creator.ID,
                                Created = channel.Created,
                                Capacity = channel.Capacity,
                                Mode_Admin = channel.Mode_Admin,
                                Mode_Slow = channel.Mode_Slow,
                                Mode_Quiet = channel.Mode_Quiet,
                                Mode_Invite = channel.Mode_Invite
-                           };;
+                           };
 
             return Json(channels.ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -50,14 +51,20 @@ namespace Kozol.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
 
+            if (channel == null)
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+
             if (ModelState.IsValid)
             {
+                channel.Creator.Administrations.Add(channel);
+                channel.Administrators.Add(channel.Creator);
                 db.Channels.Add(channel);
                 db.SaveChanges();
             }
             //need this because of circular reference caused by users
-            return Json(new { ID = channel.ID,
-                              //Creator = channel.Creator,
+            return Json(new ChannelViewModel { ID = channel.ID,
+                              Name = channel.Name,
+                              CreatorID = channel.Creator.ID,
                               Created = channel.Created,
                               Capacity = channel.Capacity,
                               Mode_Admin = channel.Mode_Admin,
@@ -67,5 +74,60 @@ namespace Kozol.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        //Get all the people who spoke in a channel
+        public JsonResult GetChannelParticipants(int channelID)
+        {
+            var speakers = from Users in db.Users
+                           join Messages in db.Messages
+                           on Users.ID equals Messages.Sender.ID
+                           join Channels in db.Channels
+                           on Messages.Destination.ID equals channelID
+                           select Users.ID;
+
+            return Json(speakers.ToList().Distinct(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdateChannel(Channel channel)
+        {
+            if (ModelState.IsValid)
+            {
+                var target = db.Channels.Find(channel.ID);
+                target.Name = channel.Name;
+                target.Capacity = channel.Capacity;
+                target.Mode_Admin = channel.Mode_Admin;
+                target.Mode_Invite = channel.Mode_Invite;
+                target.Mode_Quiet = channel.Mode_Quiet;
+                target.Mode_Slow = channel.Mode_Slow;
+
+                db.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AddAdmin(int adminID, int channelID)
+        {
+            //get the channel
+            var channel = db.Channels.Find(channelID);
+            //get the user
+            var user = db.Users.Find(adminID);
+            //current user
+            var currentUser = db.Users.Find((int)Session["userId"]);
+
+            //confirm neither are null
+            if (channel != null && user != null && ((int)Session["userId"] == channel.Creator.ID) || (channel.Administrators.Contains(currentUser)) )
+            {
+                //add the user to channel administrator list
+                if(!channel.Administrators.Contains(user))
+                    channel.Administrators.Add(user);
+                //add the channel to the users list of administrations
+                if(!user.Administrations.Contains(channel))
+                    user.Administrations.Add(channel);
+
+                db.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
