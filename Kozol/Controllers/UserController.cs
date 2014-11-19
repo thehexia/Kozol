@@ -33,6 +33,29 @@ namespace Kozol.Controllers {
             return View(userList.ToList());
         }
 
+        public ActionResult Register()
+        {
+            return View("~/Views/Kozol/Register.cshtml");
+        }
+
+        [HttpPost]
+        //not requiring first or last names right now because who cares
+        public ActionResult Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CreateUserStatus status = UserManager.CreateUser(model.Email, model.Password, model.Username);
+                if (status > 0)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            //if we get this far we know bad things happened so redisplay the form
+            return View("~/Views/Kozol/Register.cshtml", model);
+        }
+
+
         [HttpPost]
         public ActionResult LoginUser(LoginModel model) {
             if (model.IsValid(model.Email, model.Password)) {

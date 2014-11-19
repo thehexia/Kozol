@@ -23,4 +23,33 @@ namespace Kozol.Models {
             return UserManager.ValidateUser(email, password) > 0;
         }
     }
+
+    public class RegisterModel 
+    {
+        [Required]
+        [Display(Name = "User name")]
+        public string Username { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        public bool IsValid(string email, string password)
+        {
+            return UserManager.ValidateUser(email, password) > 0;
+        }
+    }
 }

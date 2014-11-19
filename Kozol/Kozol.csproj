@@ -354,6 +354,7 @@
     <Content Include="Views\Kozol\Scripts.cshtml" />
     <Content Include="Views\Channel\ChannelIndex.cshtml" />
     <Content Include="Views\User\UsersIndex.cshtml" />
+    <Content Include="Views\Kozol\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
