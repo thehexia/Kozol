@@ -82,9 +82,26 @@ namespace Kozol.Controllers
                            on Users.ID equals Messages.Sender.ID
                            join Channels in db.Channels
                            on Messages.Destination.ID equals channelID
-                           select Users.ID;
+                           select new { Users.ID, Users.Username };
 
             return Json(speakers.ToList().Distinct(), JsonRequestBehavior.AllowGet);
+        }
+
+        //get all the administrators of a channel
+        public JsonResult GetChannelAdmins(int channelID)
+        {
+            try
+            {
+                var channel = db.Channels.Find(channelID);
+                var admins = from channels in channel.Administrators.ToList()
+                             select new { ID = channels.ID, Username = channels.Username };
+
+                return Json(admins.ToList(), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public JsonResult UpdateChannel(Channel channel)

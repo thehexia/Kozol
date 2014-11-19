@@ -6,9 +6,32 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Kozol.Models.ViewModels;
 
 namespace Kozol.Controllers {
     public class UserController : Controller {
+
+        KozolContainer db = new KozolContainer();
+
+        public ActionResult UsersIndex()
+        {
+            var userList = from Users in db.Users
+                           select new UsersViewModel
+                           {
+                               ID = Users.ID,
+                               Email = Users.Email,
+                               LastActivity = Users.LastActivity,
+                               LastLogin = Users.LastLogin,
+                               Created = Users.Created,
+                               Username = Users.Username,
+                               NameFirst = Users.NameFirst,
+                               NameLast = Users.NameLast,
+                               Avatar = Users.Avatar,
+                               Avatar_Custom = Users.Avatar_Custom,
+                               Public_Key_n = Users.Public_Key_n
+                           };
+            return View(userList.ToList());
+        }
 
         [HttpPost]
         public ActionResult LoginUser(LoginModel model) {
@@ -38,6 +61,22 @@ namespace Kozol.Controllers {
             Session.Abandon();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public JsonResult GetUserList()
+        {
+            var userList = from Users in db.Users
+                           select new MinUsersViewModel 
+                           {
+                               Username = Users.Username,
+                               NameFirst = Users.NameFirst,
+                               NameLast = Users.NameLast,
+                               Avatar = Users.Avatar,
+                               Avatar_Custom = Users.Avatar_Custom,
+                               Public_Key_n = Users.Public_Key_n
+                           };
+
+            return Json(userList.ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }
