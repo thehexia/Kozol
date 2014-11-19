@@ -62,7 +62,8 @@ namespace Kozol.Controllers
                 db.SaveChanges();
             }
             //need this because of circular reference caused by users
-            return Json(new ChannelViewModel { ID = channel.ID,
+            return Json(new ChannelViewModel { 
+                              ID = channel.ID,
                               Name = channel.Name,
                               CreatorID = channel.Creator.ID,
                               Created = channel.Created,
@@ -136,6 +137,28 @@ namespace Kozol.Controllers
                 return Json(new { success = true, reason = "success" }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { success = false, reason = "failed to add model." }, JsonRequestBehavior.AllowGet);
+        }
+
+        //get all channels owned by a specific user
+        public JsonResult GetUserChannels(string username)
+        {
+            var activity = from users in db.Users
+                           join channel in db.Channels
+                           on users.ID equals channel.Creator.ID
+                           where users.Username.Contains(username)
+                           select new ChannelViewModel
+                           {
+                               ID = channel.ID,
+                               Name = channel.Name,
+                               CreatorID = channel.Creator.ID,
+                               Created = channel.Created,
+                               Capacity = channel.Capacity,
+                               Mode_Admin = channel.Mode_Admin,
+                               Mode_Slow = channel.Mode_Slow,
+                               Mode_Quiet = channel.Mode_Quiet,
+                               Mode_Invite = channel.Mode_Invite
+                           };
+            return Json(activity.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult AddAdmin(int adminID, int channelID)

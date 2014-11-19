@@ -101,5 +101,44 @@ namespace Kozol.Controllers {
 
             return Json(userList.ToList(), JsonRequestBehavior.AllowGet);
         }
+
+        //
+        // Provide a set of Json Result Wrappers for functions found in UserManager
+        //
+        public JsonResult GetUser(string username)
+        {
+            var user =     (from Users in db.Users
+                           select new UsersViewModel
+                           {
+                               ID = Users.ID,
+                               Email = Users.Email,
+                               LastActivity = Users.LastActivity,
+                               LastLogin = Users.LastLogin,
+                               Created = Users.Created,
+                               Username = Users.Username,
+                               NameFirst = Users.NameFirst,
+                               NameLast = Users.NameLast,
+                               Avatar = Users.Avatar,
+                               Avatar_Custom = Users.Avatar_Custom,
+                               Public_Key_n = Users.Public_Key_n
+                           }).FirstOrDefault();
+
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUserId(string email)
+        {
+            return Json(UserManager.GetUserId(email), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUserName(string email)
+        {
+            return Json(UserManager.GetUserName(email), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUserName(int userId)
+        {
+            return Json(UserManager.GetUserName(userId), JsonRequestBehavior.AllowGet);
+        }
     }
 }
