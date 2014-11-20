@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "UsersIndex";
+}
+@model List<Kozol.Models.ViewModels.UsersViewModel>
+
+<h2>Users Index</h2>
+
+<ul>
+    @foreach (var user in Model) 
+    { 
+        <li>
+            @user.ID | @user.Username | @user.Email | 
+        </li>
+    }
+</ul>
+
+@Html.ActionLink("UserListJson", "GetUserList", "User");
+
