@@ -7,29 +7,32 @@ using System.Threading.Tasks;
 using Kozol.Models;
 
 namespace Kozol.Hubs {
-    public class MessageHub : Hub {
-        private static int count = 1;
-
-        public void Reset() {
-            count = 1;
-        }
-
-        public void Trigger() {
-            Clients.All.PassMessage(new {
-                user = "Roundaround",
-                message = string.Format("Hello World!  Messages sent: {0}.", count++)
-            });
-        }
+    public class KozolHub : Hub {
 
         public async Task JoinChannel(string channel, string userName) {
             await Groups.Add(Context.ConnectionId, channel);
-            Clients.OthersInGroup(channel).SendMessage(channel, userName + " has joined.");
-            Clients.Caller.SendMessage(channel, "*", DateTime.Now, string.Format("Joined {0}.", channel));
+            Clients.OthersInGroup(channel).SendMessage(new {
+                channel = channel,
+                user = "*",
+                timestamp = DateTime.Now,
+                message = userName + " has joined."
+            });
+            Clients.Caller.ReceiveMessage(new {
+                channel = channel,
+                user = "*",
+                timestamp = DateTime.Now,
+                message = string.Format("Joined {0}.", channel)
+            });
         }
 
         public async Task LeaveChannel(string channel, string userName) {
             await Groups.Remove(Context.ConnectionId, channel);
-            Clients.Group(channel).SendMessage(channel, "*", DateTime.Now, userName + " has left.");
+            Clients.Group(channel).ReceiveMessage(new {
+                channel = channel,
+                user = "*",
+                timestamp = DateTime.Now,
+                message = userName + " has left."
+            });
         }
 
         private void SendMessage(int channelID, string channelName, int userID, string userName, string message) {
@@ -67,7 +70,12 @@ namespace Kozol.Hubs {
                 db.SaveChanges();
             }
 
-            Clients.Group(channelName).SendMessage(channelName, userName, timestamp, message);
+            Clients.Group(channelName).ReceiveMessage(new {
+                channel = channelName,
+                user = userName,
+                timestamp = timestamp,
+                message = message
+            });
         }
 
 

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/18/2014 18:08:05
--- Generated from EDMX file: C:\Users\hvn1\GitHub\Kozol\Kozol\Models\Kozol.edmx
+-- Date Created: 11/19/2014 21:29:19
+-- Generated from EDMX file: C:\Users\Evan\My Programming\Kozol\Kozol\Models\Kozol.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -271,6 +271,7 @@ ADD CONSTRAINT [FK_Destination]
     REFERENCES [dbo].[Channels]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Destination'
 CREATE INDEX [IX_FK_Destination]
@@ -285,6 +286,7 @@ ADD CONSTRAINT [FK_Sender]
     REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Sender'
 CREATE INDEX [IX_FK_Sender]
@@ -308,6 +310,7 @@ ADD CONSTRAINT [FK_Administrators_User]
     REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Administrators_User'
 CREATE INDEX [IX_FK_Administrators_User]
@@ -322,6 +325,7 @@ ADD CONSTRAINT [FK_Creator]
     REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Creator'
 CREATE INDEX [IX_FK_Creator]
@@ -345,6 +349,7 @@ ADD CONSTRAINT [FK_Speakers_User]
     REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Speakers_User'
 CREATE INDEX [IX_FK_Speakers_User]
@@ -368,6 +373,7 @@ ADD CONSTRAINT [FK_UserFriendship1]
     REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UserFriendship1'
 CREATE INDEX [IX_FK_UserFriendship1]
@@ -391,6 +397,7 @@ ADD CONSTRAINT [FK_InvitesReceived]
     REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvitesReceived'
 CREATE INDEX [IX_FK_InvitesReceived]
@@ -405,6 +412,7 @@ ADD CONSTRAINT [FK_Invitations]
     REFERENCES [dbo].[Channels]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Invitations'
 CREATE INDEX [IX_FK_Invitations]
@@ -419,6 +427,7 @@ ADD CONSTRAINT [FK_Attachment]
     REFERENCES [dbo].[Messages]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_Attachment'
 CREATE INDEX [IX_FK_Attachment]
@@ -442,6 +451,7 @@ ADD CONSTRAINT [FK_UserRoleMapRole]
     REFERENCES [dbo].[UserRoles]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_UserRoleMapRole'
 CREATE INDEX [IX_FK_UserRoleMapRole]

@@ -1,6 +1,8 @@
 ﻿<div class="kozol-chat" data-bind="foreach: messages">
     <div class="kozol-chat-item">
-        <span class="kozol-chat-user" data-bind="text: user"></span>:&nbsp;<span class="kozol-chat-message" data-bind="text: message"></span>
+        <span class="kozol-chat-user" data-bind="text: user"></span>&nbsp;
+        <span class="kozol-chat-timestamp" data-bind="text: moment(timestamp).format('h:mm:ss A')"></span>:&nbsp;
+        <span class="kozol-chat-message" data-bind="text: message"></span>
     </div>
 </div>
 
@@ -9,22 +11,17 @@
         var ViewModel = function () {
             var Ω = this; // Alt + 234
 
-            Ω.hub = $.connection.messageHub;
+            Ω.hub = $.connection.kozolHub;
 
             Ω.messages = ko.observableArray();
 
-            Ω.getMessage = function () {
-                Ω.hub.server.trigger();
-                setTimeout(Ω.getMessage, Math.floor(Math.random() * (4000 - 1000)) + 1000);
-            };
-
-            Ω.hub.client.passMessage = function (message) {
+            Ω.hub.client.receiveMessage = function (message) {
                 Ω.messages.push(message);
             };
 
             Ω.init = function () {
-                Ω.hub.server.reset();
-                Ω.getMessage();
+                if (@(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower()))
+                    Ω.hub.server.joinChannel("Test", "@(Session["userName"])");
             };
         };
 
