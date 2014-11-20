@@ -1,4 +1,4 @@
-﻿<div class="kozol-chat" data-bind="foreach: messages">
+﻿<div class="kozol-chat" data-bind="foreach: messages, visible: @(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower())">
     <div class="kozol-chat-item">
         <span class="kozol-chat-user" data-bind="text: user"></span>&nbsp;
         <span class="kozol-chat-timestamp" data-bind="text: moment(timestamp).format('h:mm:ss A')"></span>:&nbsp;
