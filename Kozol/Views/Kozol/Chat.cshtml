@@ -19,6 +19,10 @@
                 Ω.messages.push(message);
             };
 
+            Ω.hub.client.error = function (message) {
+                alert(message);
+            };
+
             Ω.init = function () {
                 if (@(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower()))
                     Ω.hub.server.joinChannel("Test", "@(Session["userName"])");
