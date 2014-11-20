@@ -25,4 +25,20 @@
   color: #24325b;
   text-decoration: underline;
 }
+.kozol-loginout {
+  position: fixed;
+  height: 300px;
+  width: 400px;
+  bottom: 0;
+  left: 50px;
+  background-color: white;
+  border: 1px solid #c2c2c2;
+  border-bottom: none;
+  -webkit-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 5px;
+  margin: 0;
+}
 /*# sourceMappingURL=Kozol.css.map */
