@@ -260,6 +260,7 @@
     <Compile Include="Models\ViewModels\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\KozolUtilities.cs" />
+    <Compile Include="Utilities\RequestManager.cs" />
     <Compile Include="Utilities\UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
