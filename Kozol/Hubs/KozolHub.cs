@@ -35,7 +35,7 @@ namespace Kozol.Hubs {
             });
         }
 
-        private void SendMessage(int channelID, string channelName, int userID, string userName, string message) {
+        public void SendMessage(int channelID, string channelName, int userID, string userName, string message) {
             DateTime timestamp = DateTime.Now;
 
             using (KozolContainer db = new KozolContainer()) {
