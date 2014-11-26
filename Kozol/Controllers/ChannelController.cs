@@ -28,6 +28,7 @@ namespace Kozol.Controllers
                                ID = channel.ID,
                                Name = channel.Name,
                                CreatorID = channel.Creator.ID,
+                               Creator = channel.Creator.Username,
                                Created = channel.Created,
                                Capacity = channel.Capacity,
                                Mode_Admin = channel.Mode_Admin,
@@ -66,6 +67,7 @@ namespace Kozol.Controllers
                               ID = channel.ID,
                               Name = channel.Name,
                               CreatorID = channel.Creator.ID,
+                              Creator = channel.Creator.Username,
                               Created = channel.Created,
                               Capacity = channel.Capacity,
                               Mode_Admin = channel.Mode_Admin,
@@ -151,6 +153,7 @@ namespace Kozol.Controllers
                                ID = channel.ID,
                                Name = channel.Name,
                                CreatorID = channel.Creator.ID,
+                               Creator = channel.Creator.Username,
                                Created = channel.Created,
                                Capacity = channel.Capacity,
                                Mode_Admin = channel.Mode_Admin,
@@ -159,6 +162,29 @@ namespace Kozol.Controllers
                                Mode_Invite = channel.Mode_Invite
                            };
             return Json(activity.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        //search channel
+        public JsonResult SearchChannels(string query)
+        {
+            var channels = from Channels in db.Channels
+                           where Channels.Name.Contains(query) || 
+                                 Channels.Creator.Username.Contains(query) ||
+                                 Channels.ID.ToString() == query
+                           select new ChannelViewModel
+                           {
+                               ID = Channels.ID,
+                               Name = Channels.Name,
+                               CreatorID = Channels.Creator.ID,
+                               Creator = Channels.Creator.Username,
+                               Created = Channels.Created,
+                               Capacity = Channels.Capacity,
+                               Mode_Admin = Channels.Mode_Admin,
+                               Mode_Slow = Channels.Mode_Slow,
+                               Mode_Quiet = Channels.Mode_Quiet,
+                               Mode_Invite = Channels.Mode_Invite
+                           };
+            return Json(channels.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult AddAdmin(int adminID, int channelID)

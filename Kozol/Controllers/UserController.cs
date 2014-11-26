@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Diagnostics;
 using Kozol.Models.ViewModels;
 
 namespace Kozol.Controllers {
@@ -89,8 +90,13 @@ namespace Kozol.Controllers {
         public JsonResult GetUserList()
         {
             var userList = from Users in db.Users
-                           select new MinUsersViewModel 
+                           select new UsersViewModel
                            {
+                               ID = Users.ID,
+                               Email = Users.Email,
+                               LastActivity = Users.LastActivity,
+                               LastLogin = Users.LastLogin,
+                               Created = Users.Created,
                                Username = Users.Username,
                                NameFirst = Users.NameFirst,
                                NameLast = Users.NameLast,
@@ -105,9 +111,13 @@ namespace Kozol.Controllers {
         //
         // Provide a set of Json Result Wrappers for functions found in UserManager
         //
-        public JsonResult GetUser(string username)
+        public JsonResult SearchUser(string query)
         {
-            var user =     (from Users in db.Users
+            var users =    from Users in db.Users
+                           where Users.Username.Contains(query) || 
+                                 Users.Email.Contains(query) ||
+                                 Users.NameFirst.Contains(query) ||
+                                 Users.NameLast.Contains(query)
                            select new UsersViewModel
                            {
                                ID = Users.ID,
@@ -121,7 +131,30 @@ namespace Kozol.Controllers {
                                Avatar = Users.Avatar,
                                Avatar_Custom = Users.Avatar_Custom,
                                Public_Key_n = Users.Public_Key_n
-                           }).FirstOrDefault();
+                           };
+
+            Debug.Write(Json(users.ToList(), JsonRequestBehavior.AllowGet));
+            return Json(users.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUser(string username)
+        {
+            var user = (from Users in db.Users
+                        where Users.Username.Contains(username)
+                        select new UsersViewModel
+                        {
+                            ID = Users.ID,
+                            Email = Users.Email,
+                            LastActivity = Users.LastActivity,
+                            LastLogin = Users.LastLogin,
+                            Created = Users.Created,
+                            Username = Users.Username,
+                            NameFirst = Users.NameFirst,
+                            NameLast = Users.NameLast,
+                            Avatar = Users.Avatar,
+                            Avatar_Custom = Users.Avatar_Custom,
+                            Public_Key_n = Users.Public_Key_n
+                        }).FirstOrDefault();
 
             return Json(user, JsonRequestBehavior.AllowGet);
         }

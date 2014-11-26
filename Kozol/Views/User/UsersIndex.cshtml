@@ -1,18 +1,29 @@
-﻿@{
-    ViewBag.Title = "UsersIndex";
+﻿<script src="@Url.Content("~/Scripts/jquery-2.1.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftMvcAjax.js")" type="text/javascript"></script>
+
+<script>
+    var kozolRenderUsers = function (response, status, data) {
+        var userList = jQuery.parseJSON(data.responseText);
+        var renderList = "<table class=\"kozolUserInfo\"><div class=\"kozolScrollContainer\">";
+        $.each(userList, function (idx, obj) {
+            renderList += "<tr> <td>" + obj.Username + "</td><td>" + obj.Email + "</td></tr>";
+        });
+        renderList += "</div></table>";
+        $(".kozolUsers").html(renderList);
+    };
+
+    $(document).ready(function () { $("#kozolUserRefresh")[0].click() });
+
+</script>
+<h3>@Ajax.ActionLink("Users", "GetUserList", null, new AjaxOptions { OnSuccess = "kozolRenderUsers" }, new { id = "kozolUserRefresh" })</h3>
+
+@using (Ajax.BeginForm("SearchUser", new AjaxOptions { OnSuccess = "kozolRenderUsers" }))
+{ 
+    <text>Search: </text> <input type="text" placeholder="Username" name="query" />
 }
-@model List<Kozol.Models.ViewModels.UsersViewModel>
 
-<h2>Users Index</h2>
-
-<ul>
-    @foreach (var user in Model) 
-    { 
-        <li>
-            @user.ID | @user.Username | @user.Email | 
-        </li>
-    }
-</ul>
-
-@Html.ActionLink("UserListJson", "GetUserList", "User");
-
+<div class="kozolUsers">
+    
+</div>

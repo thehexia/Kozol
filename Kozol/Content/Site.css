@@ -754,3 +754,8 @@ tr.pager td {
             margin: 0;
         }
 }
+
+tbody.kozolScrollContainer {
+    overflow: scroll;
+    height: 10px;
+}

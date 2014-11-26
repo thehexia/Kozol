@@ -1,39 +1,36 @@
-﻿@{
-    ViewBag.Title = "ChannelIndex";
-}
+﻿<script src="@Url.Content("~/Scripts/jquery-2.1.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftMvcAjax.js")" type="text/javascript"></script>
 
-@model List<Kozol.Models.Channel>
+@{
+    ViewBag.Title = "Channel Index";
+}
 
 <h2>Channel Index</h2>
+<script>
+    var kozolRenderChannels = function (response, status, data) {
+        var channelList = jQuery.parseJSON(data.responseText);
+        var renderList = "<table class=\"kozolChannelInfo\"> <tbody class=\"kozolScrollContainer\">";
+        $.each(channelList, function (idx, obj) {
+            renderList += "<tr> <td>" + obj.ID + "</td><td>" + obj.Name + "</td><td>owned by " + obj.Creator +"</td></tr>";
+        });
+        renderList += "</tbody></table>";
+        $(".kozolChannels").html(renderList);
+    };
 
-@foreach (var c in Model)
+    $(document).ready(function () { $("#kozolChannelRefresh")[0].click() });
+
+</script>
+
+<h3>@Ajax.ActionLink("Channels", "ChannelList", null, new AjaxOptions { OnSuccess = "kozolRenderChannels" }, new { id = "kozolChannelRefresh" })</h3>
+
+@using (Ajax.BeginForm("SearchChannels", new AjaxOptions { OnSuccess = "kozolRenderChannels" }))
 {
-    <li>
-        @c.Name owned by @c.Creator.Username
-    </li>
+    <text>Search: </text> <input type="text" placeholder="Search Channels" name="query" />
 }
 
-@Html.ActionLink("ChannelJson", "ChannelList", "Channel");
+<div class="kozolChannels">
 
-@Html.ActionLink("AddChannel", "AddChannel", "Channel",
-    new
-    {
-        Name = "test",
-        CreatorId = Session["userId"],
-        Created = DateTime.Now,
-        Capacity = 2,
-        SlowMode = false,
-        AdminMode = false,
-        QuietMode = false,
-        InviteMode = false
-    }, null);
+</div>
 
-@Html.ActionLink("Update Channel", "UpdateChannel", "Channel", new { ID = 1, Name = "new name", Mode_Admin = false, Mode_Quiet = true, Mode_Slow = true, Mode_Invite = false}, null);
-
-@Html.ActionLink("Channel Participants", "GetChannelParticipants", "Channel", new { channelID = 1 }, null);
-
-@Html.ActionLink("Get TestUser's Channels", "GetUserChannels", "Channel", new { username = "TestUser" }, null);
-
-@Html.ActionLink("Channel Admins", "GetChannelAdmins", "Channel", new { channelID = 4 }, null);
-
-@Html.ActionLink("Add Admin", "AddAdmin", "Channel", new { adminID = 1, channelID = 1 }, null);
