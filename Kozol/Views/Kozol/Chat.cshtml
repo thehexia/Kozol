@@ -8,7 +8,6 @@
 
 <script src="~/Scripts/Kozol/viewmodels/viewmodel-channel.js"></script>
 <script src="~/Scripts/Kozol/viewmodels/viewmodel-chat.js"></script>
-
 <script>
     $(function () {
         var viewModel = new ChatViewModel();
@@ -18,4 +17,23 @@
             viewModel.init();
         });
     });
+</script>
+
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+<script>
+    //example script for encryption
+    //get the key from some box
+    var key = $('#sharedKey').text();
+    var decryptMessages = function () {
+        $('.kozol-chat-message').each(function () {
+            //decrypt text
+            var decrypted = CryptoJS.AES.decrypt($(this).text(), key);
+            $(this).text(decrypted);
+        });
+    }
+    var encryptMessage = function () {
+        var encrypted = CryptoJS.DES.encrypt($('#whatever-the-input-box-id-is').text(), key);
+        var textBox = $('#whatever-the-input-box-id-is');
+        textBox.text(encrypted);
+    }
 </script>
