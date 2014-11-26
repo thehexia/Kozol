@@ -1,6 +1,20 @@
-﻿<script src="~/Scripts/Kozol/jquery-2.1.1.js"></script>
-<script src="~/Scripts/Kozol/jquery.signalR-2.1.2.js"></script>
-<script src="~/Scripts/Kozol/knockout-3.2.0.debug.js"></script>
-<script src="~/Scripts/Kozol/moment.js"></script>
+﻿<script src="~/Scripts/Kozol/lib/jquery-2.1.1.js"></script>
+<script src="~/Scripts/Kozol/lib/jquery.signalR-2.1.2.js"></script>
+<script src="~/Scripts/Kozol/lib/knockout-3.2.0.debug.js"></script>
+<script src="~/Scripts/Kozol/lib/moment.js"></script>
 <script src="~/signalr/hubs"></script>
 <link href="~/Content/Kozol.css" rel="stylesheet">
+
+<script>
+    (function (globalScope) {
+        var kozol = function () {
+            var Ω = this;
+
+            Ω.loggedIn = @(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower());
+            Ω.userId = @(Html.Raw(((int?)Session["userId"]).HasValue ? ((int)Session["userId"]).ToString() : "null").ToString());
+        };
+
+        globalScope.kozol = kozol;
+        return kozol;
+    }(typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this)));
+</script>

@@ -88,7 +88,7 @@ namespace Kozol.Hubs {
                     .FirstOrDefault();
 
                 if (channelObj == null) {
-                    Clients.Caller.Error(string.Format("Cannot send message to channel {0} ({1}) because it does not exist in the database.", channelName, channelID));
+                    Clients.Caller.Error(string.Format("Cannot send message to channel {0} because it does not exist in the database.", channelID));
                     return;
                 }
 
@@ -99,7 +99,7 @@ namespace Kozol.Hubs {
                     .FirstOrDefault();
 
                 if (userObj == null) {
-                    Clients.Caller.Error("Cannot send message because the user ID passed is not in the database.");
+                    Clients.Caller.Error(string.Format("Cannot send message because the user ID {0} does not exist in the database.", userID));
                     return;
                 }
 
