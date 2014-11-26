@@ -9,34 +9,78 @@ using Kozol.Models;
 namespace Kozol.Hubs {
     public class KozolHub : Hub {
 
-        public async Task JoinChannel(string channel, string userName) {
-            await Groups.Add(Context.ConnectionId, channel);
-            Clients.OthersInGroup(channel).SendMessage(new {
-                channel = channel,
+        public async Task JoinChannel(int channelID, int userID) {
+            string channelName;
+            string userName;
+            using (KozolContainer db = new KozolContainer()) {
+                Channel channelObj = db.Channels
+                    .Where(c => c.ID == channelID)
+                    .FirstOrDefault();
+
+                if (channelObj == null) {
+                    Clients.Caller.Error(string.Format("Cannot join channel {0} because it does not exist in the database.", channelID));
+                    return;
+                }
+
+                channelName = channelObj.Name;
+
+                User userObj = db.Users
+                    .Where(u => u.ID == userID)
+                    .FirstOrDefault();
+
+                if (userObj == null) {
+                    Clients.Caller.Error(string.Format("Cannot join channel because the user ID {0} does not exist in the database.", userID));
+                    return;
+                }
+
+                userName = userObj.Username;
+            }
+
+            await Groups.Add(Context.ConnectionId, channelID.ToString());
+
+            Clients.OthersInGroup(channelID.ToString()).SendMessage(new {
+                channel = channelID,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = userName + " has joined."
             });
             Clients.Caller.ReceiveMessage(new {
-                channel = channel,
+                channel = channelID,
                 user = "*",
                 timestamp = DateTime.Now,
-                message = string.Format("Joined {0}.", channel)
+                message = string.Format("Joined {0}.", channelName)
             });
         }
 
-        public async Task LeaveChannel(string channel, string userName) {
-            await Groups.Remove(Context.ConnectionId, channel);
-            Clients.Group(channel).ReceiveMessage(new {
-                channel = channel,
+        public async Task LeaveChannel(int channelID, int userID) {
+            string userName;
+            using (KozolContainer db = new KozolContainer()) {
+                User userObj = db.Users
+                    .Where(u => u.ID == userID)
+                    .FirstOrDefault();
+
+                if (userObj == null) {
+                    Clients.Caller.Error(string.Format("An error has occured.  The user ID {0} does not exist in the database.", userID));
+                    return;
+                }
+
+                userName = userObj.Username;
+            }
+
+            await Groups.Remove(Context.ConnectionId, channelID.ToString());
+
+            Clients.OthersInGroup(channelID.ToString()).SendMessage(new {
+                channel = channelID,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = userName + " has left."
             });
         }
 
-        public void SendMessage(int channelID, string channelName, int userID, string userName, string message) {
+        public void SendMessage(int channelID, int userID, string message) {
             DateTime timestamp = DateTime.Now;
+            string channelName;
+            string userName;
 
             using (KozolContainer db = new KozolContainer()) {
                 Channel channelObj = db.Channels
@@ -48,6 +92,8 @@ namespace Kozol.Hubs {
                     return;
                 }
 
+                channelName = channelObj.Name;
+
                 User userObj = db.Users
                     .Where(u => u.ID == userID)
                     .FirstOrDefault();
@@ -56,6 +102,8 @@ namespace Kozol.Hubs {
                     Clients.Caller.Error("Cannot send message because the user ID passed is not in the database.");
                     return;
                 }
+
+                userName = userObj.Username;
 
                 Message messageObj = new Message() {
                     Timestamp = timestamp,

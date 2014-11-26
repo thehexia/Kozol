@@ -15,6 +15,10 @@
 
             Ω.messages = ko.observableArray();
 
+            Ω.sendMessage = function (channel, text) {
+                Ω.hub.server.sendMessage(channel, @(Session["userId"]), text);
+            };
+
             Ω.hub.client.receiveMessage = function (message) {
                 Ω.messages.push(message);
             };
@@ -25,7 +29,7 @@
 
             Ω.init = function () {
                 if (@(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower()))
-                    Ω.hub.server.joinChannel("Test", "@(Session["userName"])");
+                    Ω.hub.server.joinChannel(1, @(Session["userId"]));
             };
         };
 
