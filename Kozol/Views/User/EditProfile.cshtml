@@ -1,0 +1,34 @@
+﻿@model Kozol.Models.ViewModels.UsersViewModel
+
+@{
+    ViewBag.Title = "Edit Profile";
+}
+
+<h2>Edit My Profile</h2>
+
+@using (Html.BeginForm("EditProfile", "User", FormMethod.Post))
+{    
+    @Html.HiddenFor(p => p.ID)
+    
+    @Html.LabelFor(p => p.Email)
+    @Html.TextBoxFor(p => p.Email)
+    
+    @Html.LabelFor(p => p.NameFirst)
+    @Html.TextBoxFor(p => p.NameFirst)
+    
+    @Html.LabelFor(p => p.NameLast)
+    @Html.TextBoxFor(p => p.NameLast)
+    
+    @Html.LabelFor(p => p.Public_Key_n)
+    @Html.TextAreaFor(p => p.Public_Key_n)
+    <br/>
+    <input type="text" name="redirectUri" id="kozol-redirect-uri" hidden />
+    <input type="submit" value="Edit" />
+}
+
+<script>
+    $(document).ready(function () {
+        var url = document.URL;
+        $("#kozol-redirect-uri").val(url);
+    });
+</script>

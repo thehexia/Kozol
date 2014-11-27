@@ -11,6 +11,7 @@
             renderList += "<tr>";
             renderList += "<td class=\"kozol-username\">" + obj.Username + "</td>";
             renderList += "<td class=\"kozol-email\">" + obj.Email + "</td>";
+            renderList += "<td class=\"kozol-get-user\"><a href=\"/User/GetUser?username=" + obj.Username + "\">Info</a></td>";
             renderList += "</tr>";
         });
         renderList += "</tbody></table>";

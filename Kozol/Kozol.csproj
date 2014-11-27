@@ -371,6 +371,7 @@
     <Content Include="Views\Channel\ChannelIndex.cshtml" />
     <Content Include="Views\User\UsersIndex.cshtml" />
     <Content Include="Views\Kozol\Register.cshtml" />
+    <Content Include="Views\User\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -5,6 +5,7 @@
     <title>@ViewBag.Title - My ASP.NET MVC Application</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
+    <script src="@Url.Content("~/Scripts/jquery-2.1.1.min.js")" type="text/javascript"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -20,6 +21,9 @@
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Channels", "ChannelIndex", "Channel")</li>
                         <li>@Html.ActionLink("Users", "UsersIndex", "User")</li>
+                    @if ((bool)(Session["loggedIn"] ?? false)) {
+                        <li>@Html.ActionLink("My Profile", "EditProfile", "User", new { }, null)</li>
+                    }
                     </ul>
                 </nav>
             </div>
@@ -44,6 +48,6 @@
 
     @Html.Partial("../Kozol/Scripts")
     @Html.Partial("../Kozol/Login", new Kozol.Models.LoginModel())
-    @*@Html.Partial("../Kozol/Chat")*@
+    @Html.Partial("../Kozol/Chat")
 </body>
 </html>

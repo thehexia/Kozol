@@ -14,6 +14,69 @@ namespace Kozol.Controllers {
 
         KozolContainer db = new KozolContainer();
 
+        public ActionResult ViewProfile(string username)
+        {
+            var user = (from Users in db.Users
+                        where Users.Username.Contains(username)
+                        select new UsersViewModel
+                        {
+                            ID = Users.ID,
+                            Email = Users.Email,
+                            LastActivity = Users.LastActivity,
+                            LastLogin = Users.LastLogin,
+                            Created = Users.Created,
+                            Username = Users.Username,
+                            NameFirst = Users.NameFirst,
+                            NameLast = Users.NameLast,
+                            Avatar = Users.Avatar,
+                            Avatar_Custom = Users.Avatar_Custom,
+                            Public_Key_n = Users.Public_Key_n
+                        }).FirstOrDefault();
+
+            return View(user);
+        }
+
+        public ActionResult EditProfile()
+        {
+            string username = (string)Session["userName"];
+            var user = (from Users in db.Users
+                        where Users.Username.Contains(username)
+                        select new UsersViewModel
+                        {
+                            ID = Users.ID,
+                            Email = Users.Email,
+                            LastActivity = Users.LastActivity,
+                            LastLogin = Users.LastLogin,
+                            Created = Users.Created,
+                            Username = Users.Username,
+                            NameFirst = Users.NameFirst,
+                            NameLast = Users.NameLast,
+                            Avatar = Users.Avatar,
+                            Avatar_Custom = Users.Avatar_Custom,
+                            Public_Key_n = Users.Public_Key_n
+                        }).FirstOrDefault();
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(User user, string redirectUri)
+        {
+            if (user.ID != (int)Session["userId"])
+                return Json(new { success = false, message = (int)Session["userId"] + "does not match " + user.ID }, JsonRequestBehavior.AllowGet);
+
+            if (ModelState.IsValid)
+            {
+                var u = db.Users.Find(user.ID);
+                u.Public_Key_n = user.Public_Key_n;
+                u.Email = user.Email;
+                u.NameFirst = user.NameFirst;
+                u.NameLast = user.NameLast;
+                db.SaveChanges();
+                return Redirect(redirectUri);
+            }
+            return View(user);  
+        }
+
         public ActionResult UsersIndex()
         {
             var userList = from Users in db.Users
@@ -67,6 +130,13 @@ namespace Kozol.Controllers {
                         authCookie.Expires = DateTime.Now.AddMonths(1);
                         Response.Cookies.Add(authCookie);
                     }
+                    User curr = GetUser((int)UserManager.GetUserId(model.Email));
+                    if (curr != null)
+                    {
+                        curr.LastLogin = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                        
                 } else if (status == SetLoginStatus.NotFound) {
                     // Inform user that user account was not found.
                 } else {
@@ -135,6 +205,11 @@ namespace Kozol.Controllers {
 
             Debug.Write(Json(users.ToList(), JsonRequestBehavior.AllowGet));
             return Json(users.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        private User GetUser(int userId)
+        {
+            return db.Users.Find(userId);
         }
 
         public JsonResult GetUser(string username)
