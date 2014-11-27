@@ -38,14 +38,14 @@ namespace Kozol.Hubs {
 
             await Groups.Add(Context.ConnectionId, channelID.ToString());
 
-            Clients.OthersInGroup(channelID.ToString()).SendMessage(new {
-                channel = channelID,
+            Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new {
+                channelID = channelID,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = userName + " has joined."
             });
             Clients.Caller.ReceiveMessage(new {
-                channel = channelID,
+                channelID = channelID,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = string.Format("Joined {0}.", channelName)
@@ -69,8 +69,8 @@ namespace Kozol.Hubs {
 
             await Groups.Remove(Context.ConnectionId, channelID.ToString());
 
-            Clients.OthersInGroup(channelID.ToString()).SendMessage(new {
-                channel = channelID,
+            Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new {
+                channelID = channelID,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = userName + " has left."
@@ -119,7 +119,7 @@ namespace Kozol.Hubs {
             }
 
             Clients.Group(channelName).ReceiveMessage(new {
-                channel = channelName,
+                channelID = channelID,
                 user = userName,
                 timestamp = timestamp,
                 message = message

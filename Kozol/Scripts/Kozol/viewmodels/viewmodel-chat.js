@@ -12,7 +12,11 @@
     };
 
     Ω.hub.client.receiveMessage = function (message) {
-        Ω.messages.push(message);
+        alert(JSON.stringify(message));
+        if (Ω.channels.get(message.channelID) === undefined)
+            Ω.channels.set(message.channelID, new ChannelViewModel(Ω));
+        Ω.channels()[message.channelID].receiveMessage(message);
+        //Ω.messages.push(message);
     };
 
     Ω.hub.client.error = function (message) {
@@ -21,6 +25,6 @@
 
     Ω.init = function () {
         if (kozol.loggedIn)
-            Ω.hub.server.joinChannel(1, kozol.userId);
+            Ω.hub.server.joinChannel(1, kozol.userId, true);
     };
 }

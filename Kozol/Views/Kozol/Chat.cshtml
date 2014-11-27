@@ -1,22 +1,27 @@
-﻿<div class="kozol-chat" data-bind="foreach: messages, visible: @(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower())">
-    <div class="kozol-chat-item">
-        <span class="kozol-chat-user" data-bind="text: user"></span>&nbsp;
-        <span class="kozol-chat-timestamp" data-bind="text: moment(timestamp).format('h:mm:ss A')"></span>:&nbsp;
-        <span class="kozol-chat-message" data-bind="text: message"></span>
+﻿<div data-bind="foreachprop: channels, visible: function () { return kozol.loggedIn; }">
+    <div class="kozol-chat" data-bind="foreach: messages">
+        <div class="kozol-chat-item">
+            <span class="kozol-chat-user" data-bind="text: user"></span>&nbsp;
+            <span class="kozol-chat-timestamp" data-bind="text: moment(timestamp).format('h:mm:ss A')"></span>:&nbsp;
+            <span class="kozol-chat-message" data-bind="text: message"></span>
+        </div>
     </div>
 </div>
 
 <script src="~/Scripts/Kozol/viewmodels/viewmodel-channel.js"></script>
 <script src="~/Scripts/Kozol/viewmodels/viewmodel-chat.js"></script>
 <script>
-    $(function () {
+    (function (globalScope) {
         var viewModel = new ChatViewModel();
         ko.applyBindings(viewModel);
 
         $.connection.hub.start(function () {
             viewModel.init();
         });
-    });
+
+        globalScope.viewModel = viewModel;
+        return viewModel;
+    }(typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this)));
 </script>
 
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>

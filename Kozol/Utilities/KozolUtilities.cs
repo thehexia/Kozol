@@ -95,6 +95,22 @@ namespace Kozol.Utilities {
 
             UserManager.CreateUser("esteinkerchner@gmail.com", "testPassword", "Roundaround");
             UserManager.AssignUserToRoles("esteinkerchner@gmail.com", new List<string>() { "Global Admin", "Global Speaker" });
+
+            using (KozolContainer context = new KozolContainer()) {
+                var defaultChannel = context.Channels
+                    .Where(c => c.ID == 1)
+                    .FirstOrDefault();
+                if (defaultChannel == null) {
+                    context.Channels.Add(new Channel {
+                        ID = 1,
+                        Name = "Public Channel",
+                        Creator = UserManager.GetUser("esteinkerchner@gmail.com"),
+                        Created = DateTime.Now
+                    });
+                }
+
+                context.SaveChanges();
+            }
         }
     }
 }

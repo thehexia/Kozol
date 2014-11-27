@@ -7,6 +7,33 @@
 
 <script>
     (function (globalScope) {
+        ko.observable.fn.get = function (id) {
+            return this.peek()[id];
+        };
+        ko.observable.fn.set = function (id, value) {
+            this.valueWillMutate();
+            this.peek()[id] = value;
+            this.valueHasMutated();
+            return this;
+        };
+        ko.bindingHandlers.foreachprop = {
+            transformObject: function (obj) {
+                var properties = [];
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        properties.push({ key: key, value: obj[key] });
+                    }
+                }
+                return properties;
+            },
+            init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+                var value = ko.utils.unwrapObservable(valueAccessor()),
+                    properties = ko.bindingHandlers.foreachprop.transformObject(value);
+                ko.applyBindingsToNode(element, { foreach: properties }, bindingContext);
+                return { controlsDescendantBindings: true };
+            }
+        };
+
         var kozol = function () {
             var Ω = this;
 
