@@ -20,7 +20,12 @@
         var channelList = jQuery.parseJSON(data.responseText);
         var renderList = "<table class=\"kozol-channel-info\"> <tbody class=\"kozol-scroll-container\">";
         $.each(channelList, function (idx, obj) {
-            renderList += "<tr><td class=\"kozol-channel-id\">" + obj.ID + "</td><td class=\"kozol-channel-name\">" + obj.Name + "</td><td>owned by " + obj.Creator +"</td></tr>";
+            renderList += "<tr><td class=\"kozol-channel-id\">" + obj.ID + "</td>";
+            renderList += "<td class=\"kozol-channel-name\">" + obj.Name + "</td>";
+            renderList += "<td>owned by " + obj.Creator + "</td>";
+            renderList += "<td><a href=\"/Channel/GetChannel?channelId=" + obj.ID + "\">Info</a></td>";
+            renderList += "<td><a href=\"/Channel/GetChannelParticipants?channelId=" + obj.ID + "\">Ppl</a></td>";
+            renderList += "</tr>";
         });
         renderList += "</tbody></table>";
         $(".kozol-channels").html(renderList);
@@ -30,7 +35,7 @@
         var channelList = jQuery.parseJSON(data.responseText);
         var renderList = "<table class=\"kozol-channel-info\"> <tbody class=\"kozol-scroll-container\">";
         $.each(channelList, function (idx, obj) {
-            renderList += "<tr><td class=\"kozol-channel-id\">" + obj.ID + "</td>";
+            renderList += "<tr><td class=\"kozol-channel-id\"><a href=\"/Channel/Info" + obj.ID + "</td>";
             renderList += "<td class=\"kozol-channel-name\">" + obj.Name + "</td>";
             renderList += "<td><input type=\"button\" onclick=\"setUpdateId("+ obj.ID + ",\'" + obj.Name +"\',"+ obj.Capacity + ")\" value=\"Update\"></td></tr>";
         });
@@ -67,12 +72,12 @@
     @using (Ajax.BeginForm("AddChannel", "Channel", new AjaxOptions { OnSuccess = "$(\"#kozolChannelRefresh\")[0].click();$(\"#kozolMyChannelRefresh\")[0].click();" }))
     {
         <input type="text" id="addCreatorId" name="CreatorId" hidden/> <br/>
-        <text>Name</text><input type="text" id="addChannelName" name="Name" class="text-box" /> <br/>
-        <text>Capacity</text><input type="text" id="addChannelCapacity" name="Capacity" class="text-box" /><br/>
-        <text>Quiet</text><input type="checkbox" id="addQuietMode" name="Mode_Quiet" value="false" />
-        <text>Slow</text><input type="checkbox" id="addSlowMode" name="Mode_Slow" value="false" />
-        <text>Invite</text><input type="checkbox" id="addInvMode" name="Mode_Invite" value="false" />
-        <text>Admin</text><input type="checkbox" id="addAdminMode" name="Mode_Admin" value="false" />
+        <text>Name: </text><input type="text" id="addChannelName" name="Name" class="text-box" /> <br/>
+        <text>Capacity: </text><input type="text" id="addChannelCapacity" name="Capacity" class="text-box" /><br/>
+        <text>Quiet </text><input type="checkbox" id="addQuietMode" name="Mode_Quiet" value="true" />
+        <text>Slow </text><input type="checkbox" id="addSlowMode" name="Mode_Slow" value="true" />
+        <text>Invite </text><input type="checkbox" id="addInvMode" name="Mode_Invite" value="true" />
+        <text>Admin </text><input type="checkbox" id="addAdminMode" name="Mode_Admin" value="true" />
         <br />
         <input type="submit" value="Add" />
     }
@@ -82,14 +87,14 @@
     <h3>Update Channel</h3>
     @using (Ajax.BeginForm("UpdateChannel", "Channel", new AjaxOptions { OnSuccess = "$(\"#kozolChannelRefresh\")[0].click();$(\"#kozolMyChannelRefresh\")[0].click()" }))
     {
-        <text>ID:</text><input type="text" id="upChannelId" name="ID" class="text-box" />
+        <text>ID: </text><input type="text" id="upChannelId" name="ID" class="text-box" />
         <input type="text" id="upCreatorId" name="CreatorId" value="@Session["userId"]" hidden/>  <br />
-        <text>Name</text><input type="text" id="upChannelName" name="Name" class="text-box" /> <br />
-        <text>Capacity</text><input type="text" id="upChannelCapacity" name="Capacity" class="text-box" /><br />
-        <text>Quiet</text><input type="checkbox" id="upQuietMode" name="Mode_Quiet" value="false" />
-        <text>Slow</text><input type="checkbox" id="upSlowMode" name="Mode_Slow" value="false" />
-        <text>Invite</text><input type="checkbox" id="upInvMode" name="Mode_Invite" value="false" />
-        <text>Admin</text><input type="checkbox" id="upAdminMode" name="Mode_Admin" value="false" />
+        <text>Name </text><input type="text" id="upChannelName" name="Name" class="text-box" /> <br />
+        <text>Capacity </text><input type="text" id="upChannelCapacity" name="Capacity" class="text-box" /><br />
+        <text>Quiet </text><input type="checkbox" id="upQuietMode" name="Mode_Quiet" value="true" />
+        <text>Slow </text><input type="checkbox" id="upSlowMode" name="Mode_Slow" value="true" />
+        <text>Invite </text><input type="checkbox" id="upInvMode" name="Mode_Invite" value="true" />
+        <text>Admin </text><input type="checkbox" id="upAdminMode" name="Mode_Admin" value="true" />
         <br />
         <input type="submit" value="Update" />
     }

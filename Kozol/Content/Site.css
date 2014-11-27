@@ -764,8 +764,13 @@ tbody.kozol-scroll-container {
 .kozol-table-container {
     display: block;
     float: left;
+    margin: 10px;
 }
 
 .kozol-table-container .text-box {
     width: 100px;
+}
+
+body {
+    overflow: auto;
 }

@@ -20,6 +20,27 @@ namespace Kozol.Controllers
             return View(channels.ToList());
         }
 
+        public JsonResult GetChannel(int channelId)
+        {
+            var channels = from channel in db.Channels
+                           where channel.ID == channelId
+                           select new ChannelViewModel
+                           {
+                               ID = channel.ID,
+                               Name = channel.Name,
+                               CreatorID = channel.Creator.ID,
+                               Creator = channel.Creator.Username,
+                               Created = channel.Created,
+                               Capacity = channel.Capacity,
+                               Mode_Admin = channel.Mode_Admin,
+                               Mode_Slow = channel.Mode_Slow,
+                               Mode_Quiet = channel.Mode_Quiet,
+                               Mode_Invite = channel.Mode_Invite
+                           };
+
+            return Json(channels.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult ChannelList()
         {
             var channels = from channel in db.Channels
@@ -80,13 +101,13 @@ namespace Kozol.Controllers
         }
 
         //Get all the people who spoke in a channel
-        public JsonResult GetChannelParticipants(int channelID)
+        public JsonResult GetChannelParticipants(int channelId)
         {
             var speakers = from Users in db.Users
                            join Messages in db.Messages
                            on Users.ID equals Messages.Sender.ID
                            join Channels in db.Channels
-                           on Messages.Destination.ID equals channelID
+                           on Messages.Destination.ID equals channelId
                            select new { Users.ID, Users.Username };
 
             return Json(speakers.ToList().Distinct(), JsonRequestBehavior.AllowGet);
