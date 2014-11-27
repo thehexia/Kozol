@@ -9,6 +9,13 @@
 
 <h2>Channel Index</h2>
 <script>
+
+    var setUpdateId = function (id, name, cap) {
+        $('#upChannelName').val(name);
+        $('#upChannelId').val(id);
+        $('#upChannelCapacity').val(cap);
+    }
+
     var kozolRenderChannels = function (response, status, data) {
         var channelList = jQuery.parseJSON(data.responseText);
         var renderList = "<table class=\"kozol-channel-info\"> <tbody class=\"kozol-scroll-container\">";
@@ -19,18 +26,71 @@
         $(".kozol-channels").html(renderList);
     };
 
+    var kozolRenderMyChannels = function (response, status, data) {
+        var channelList = jQuery.parseJSON(data.responseText);
+        var renderList = "<table class=\"kozol-channel-info\"> <tbody class=\"kozol-scroll-container\">";
+        $.each(channelList, function (idx, obj) {
+            renderList += "<tr><td class=\"kozol-channel-id\">" + obj.ID + "</td>";
+            renderList += "<td class=\"kozol-channel-name\">" + obj.Name + "</td>";
+            renderList += "<td><input type=\"button\" onclick=\"setUpdateId("+ obj.ID + ",\'" + obj.Name +"\',"+ obj.Capacity + ")\" value=\"Update\"></td></tr>";
+        });
+        renderList += "</tbody></table>";
+        $(".my-kozol-channels").html(renderList);
+    };
+
     $(document).ready(function () { $("#kozolChannelRefresh")[0].click() });
+    $(document).ready(function () { $("#kozolMyChannelRefresh")[0].click() });
 
 </script>
-
-<h3>@Ajax.ActionLink("Channels", "ChannelList", null, new AjaxOptions { OnSuccess = "kozolRenderChannels" }, new { id = "kozolChannelRefresh" })</h3>
 
 @using (Ajax.BeginForm("SearchChannels", new AjaxOptions { OnSuccess = "kozolRenderChannels" }))
 {
     <text>Search: </text> <input type="text" placeholder="Search Channels" name="query" />
 }
 
-<div class="kozol-channels">
+<div class="kozol-table-container">
+    <h3>@Ajax.ActionLink("Channels", "ChannelList", null, new AjaxOptions { OnSuccess = "kozolRenderChannels" }, new { id = "kozolChannelRefresh" })</h3>
+    <div class="kozol-channels">
 
+    </div>
 </div>
 
+<div class="kozol-table-container">
+    <h3>@Ajax.ActionLink("My Channels", "GetUserChannels", new { username = Session["userName"] }, new AjaxOptions { OnSuccess = "kozolRenderMyChannels" }, new { id = "kozolMyChannelRefresh" })</h3>
+    <div class="my-kozol-channels">
+
+    </div>
+</div>
+
+<div class="kozol-table-container">
+    <h3>Add Channel</h3>
+    @using (Ajax.BeginForm("AddChannel", "Channel", new AjaxOptions { OnSuccess = "$(\"#kozolChannelRefresh\")[0].click();$(\"#kozolMyChannelRefresh\")[0].click();" }))
+    {
+        <input type="text" id="addCreatorId" name="CreatorId" hidden/> <br/>
+        <text>Name</text><input type="text" id="addChannelName" name="Name" class="text-box" /> <br/>
+        <text>Capacity</text><input type="text" id="addChannelCapacity" name="Capacity" class="text-box" /><br/>
+        <text>Quiet</text><input type="checkbox" id="addQuietMode" name="Mode_Quiet" value="false" />
+        <text>Slow</text><input type="checkbox" id="addSlowMode" name="Mode_Slow" value="false" />
+        <text>Invite</text><input type="checkbox" id="addInvMode" name="Mode_Invite" value="false" />
+        <text>Admin</text><input type="checkbox" id="addAdminMode" name="Mode_Admin" value="false" />
+        <br />
+        <input type="submit" value="Add" />
+    }
+</div>
+
+<div class="kozol-table-container">
+    <h3>Update Channel</h3>
+    @using (Ajax.BeginForm("UpdateChannel", "Channel", new AjaxOptions { OnSuccess = "$(\"#kozolChannelRefresh\")[0].click();$(\"#kozolMyChannelRefresh\")[0].click()" }))
+    {
+        <text>ID:</text><input type="text" id="upChannelId" name="ID" class="text-box" />
+        <input type="text" id="upCreatorId" name="CreatorId" value="@Session["userId"]" hidden/>  <br />
+        <text>Name</text><input type="text" id="upChannelName" name="Name" class="text-box" /> <br />
+        <text>Capacity</text><input type="text" id="upChannelCapacity" name="Capacity" class="text-box" /><br />
+        <text>Quiet</text><input type="checkbox" id="upQuietMode" name="Mode_Quiet" value="false" />
+        <text>Slow</text><input type="checkbox" id="upSlowMode" name="Mode_Slow" value="false" />
+        <text>Invite</text><input type="checkbox" id="upInvMode" name="Mode_Invite" value="false" />
+        <text>Admin</text><input type="checkbox" id="upAdminMode" name="Mode_Admin" value="false" />
+        <br />
+        <input type="submit" value="Update" />
+    }
+</div>

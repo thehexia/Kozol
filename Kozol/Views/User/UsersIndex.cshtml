@@ -6,14 +6,14 @@
 <script>
     var kozolRenderUsers = function (response, status, data) {
         var userList = jQuery.parseJSON(data.responseText);
-        var renderList = "<table class=\"kozol-user-info\"><div class=\"kozol-scroll-container\">";
+        var renderList = "<table class=\"kozol-user-info\"><tbody class=\"kozol-scroll-container\">";
         $.each(userList, function (idx, obj) {
             renderList += "<tr>";
             renderList += "<td class=\"kozol-username\">" + obj.Username + "</td>";
             renderList += "<td class=\"kozol-email\">" + obj.Email + "</td>";
             renderList += "</tr>";
         });
-        renderList += "</div></table>";
+        renderList += "</tbody></table>";
         $(".kozol-users").html(renderList);
     };
 

@@ -755,7 +755,17 @@ tr.pager td {
         }
 }
 
-tbody.kozolScrollContainer {
-    overflow: scroll;
-    height: 100px;
+tbody.kozol-scroll-container {
+    display: block;
+    overflow-y: scroll;
+    max-height: 100px;
+}
+
+.kozol-table-container {
+    display: block;
+    float: left;
+}
+
+.kozol-table-container .text-box {
+    width: 100px;
 }

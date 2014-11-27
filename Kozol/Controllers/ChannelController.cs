@@ -43,6 +43,8 @@ namespace Kozol.Controllers
         public JsonResult AddChannel(Channel channel)
         {
             channel.Created = DateTime.Now;
+            channel.ID = db.Channels.Max(c => c.ID) + 1;
+            
             if (Session["userId"] != null)
             {
                 channel.Creator = db.Users.Find(Session["userId"]);
