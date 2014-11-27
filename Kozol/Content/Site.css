@@ -757,5 +757,5 @@ tr.pager td {
 
 tbody.kozolScrollContainer {
     overflow: scroll;
-    height: 10px;
+    height: 100px;
 }

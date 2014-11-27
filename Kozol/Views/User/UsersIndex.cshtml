@@ -6,12 +6,15 @@
 <script>
     var kozolRenderUsers = function (response, status, data) {
         var userList = jQuery.parseJSON(data.responseText);
-        var renderList = "<table class=\"kozolUserInfo\"><div class=\"kozolScrollContainer\">";
+        var renderList = "<table class=\"kozol-user-info\"><div class=\"kozol-scroll-container\">";
         $.each(userList, function (idx, obj) {
-            renderList += "<tr> <td>" + obj.Username + "</td><td>" + obj.Email + "</td></tr>";
+            renderList += "<tr>";
+            renderList += "<td class=\"kozol-username\">" + obj.Username + "</td>";
+            renderList += "<td class=\"kozol-email\">" + obj.Email + "</td>";
+            renderList += "</tr>";
         });
         renderList += "</div></table>";
-        $(".kozolUsers").html(renderList);
+        $(".kozol-users").html(renderList);
     };
 
     $(document).ready(function () { $("#kozolUserRefresh")[0].click() });
@@ -24,6 +27,6 @@
     <text>Search: </text> <input type="text" placeholder="Username" name="query" />
 }
 
-<div class="kozolUsers">
+<div class="kozol-users">
     
 </div>

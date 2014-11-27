@@ -11,12 +11,12 @@
 <script>
     var kozolRenderChannels = function (response, status, data) {
         var channelList = jQuery.parseJSON(data.responseText);
-        var renderList = "<table class=\"kozolChannelInfo\"> <tbody class=\"kozolScrollContainer\">";
+        var renderList = "<table class=\"kozol-channel-info\"> <tbody class=\"kozol-scroll-container\">";
         $.each(channelList, function (idx, obj) {
-            renderList += "<tr> <td>" + obj.ID + "</td><td>" + obj.Name + "</td><td>owned by " + obj.Creator +"</td></tr>";
+            renderList += "<tr><td class=\"kozol-channel-id\">" + obj.ID + "</td><td class=\"kozol-channel-name\">" + obj.Name + "</td><td>owned by " + obj.Creator +"</td></tr>";
         });
         renderList += "</tbody></table>";
-        $(".kozolChannels").html(renderList);
+        $(".kozol-channels").html(renderList);
     };
 
     $(document).ready(function () { $("#kozolChannelRefresh")[0].click() });
@@ -30,7 +30,7 @@
     <text>Search: </text> <input type="text" placeholder="Search Channels" name="query" />
 }
 
-<div class="kozolChannels">
+<div class="kozol-channels">
 
 </div>
 
