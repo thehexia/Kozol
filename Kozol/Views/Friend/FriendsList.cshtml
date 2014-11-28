@@ -1,0 +1,81 @@
+﻿<script src="@Url.Content("~/Scripts/jquery-2.1.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftMvcAjax.js")" type="text/javascript"></script>
+@{
+    ViewBag.Title = "Friend List";
+}
+
+<script>
+    var kozolRenderUsers = function (response, status, data) {
+        var userList = jQuery.parseJSON(data.responseText);
+        var renderList = "<table class=\"kozol-user-info\"><tbody class=\"kozol-scroll-container\">";
+        $.each(userList, function (idx, obj) {
+            renderList += "<tr>";
+            renderList += "<td class=\"kozol-username\">" + obj.Username + "</td>";
+            renderList += "<td class=\"kozol-email\">" + obj.Email + "</td>";
+            renderList += "</tr>";
+        });
+        renderList += "</tbody></table>";
+        $(".kozol-users").html(renderList);
+    };
+
+    var kozolRenderFriends = function (response, status, data) {
+        var friendsList = jQuery.parseJSON(data.responseText);
+        var renderList = "<table class=\"kozol-user-info\"><tbody class=\"kozol-scroll-container\">";
+        $.each(friendsList, function (idx, obj) {
+            renderList += "<tr>";
+            renderList += "<td class=\"kozol-user-id\" hidden>" + obj.FriendId + "</td>";
+            renderList += "<td class=\"kozol-username\">" + obj.FriendUsername + "</td>";
+            renderList += "<td class=\"kozol-email\">" + obj.FriendEmail + "</td>";
+            renderList += "<td class=\"kozol-public-key\">" + obj.PublicKey + "</td>";
+            renderList += "</tr>";
+        });
+        renderList += "</tbody></table>";
+        $(".kozol-friends").html(renderList);
+    }
+
+    $(document).ready(function () { $("#kozolUserRefresh")[0].click() });
+    $(document).ready(function () { $("#kozolFriendRefresh")[0].click() });
+</script>
+
+
+<div>
+    <h3>@Ajax.ActionLink("Users", "GetUserList", "User", null, new AjaxOptions { OnSuccess = "kozolRenderUsers" }, new { id = "kozolUserRefresh" })</h3>
+
+    @using (Ajax.BeginForm("SearchUser", "User", new AjaxOptions { OnSuccess = "kozolRenderUsers" }))
+    {
+        <text>Search: </text> <input type="text" placeholder="Username" name="query" />
+    }
+    <div class="kozol-users">
+
+    </div>
+</div>
+
+<div>
+    <h3>@Ajax.ActionLink("Friends", "GetFriendsList", "Friend", null, new AjaxOptions { OnSuccess = "kozolRenderFriends" }, new { id = "kozolFriendRefresh" })</h3>
+    <div class="kozol-friends">
+
+    </div>
+</div>
+
+<br/>
+
+<div>
+    <h3>Add Friend</h3>
+    @using (Ajax.BeginForm("AddFriend", "Friend", new AjaxOptions { OnSuccess = "$(\"#kozolFriendRefresh\")[0].click();" }))
+    {
+        <label>Username: </label>
+        <input type="text" name="username" />
+        <br />
+        <input type="submit" value="Add" />
+    }
+    <h3>Remove Friend</h3>
+    @using (Ajax.BeginForm("RemoveFriend", "Friend", new AjaxOptions { OnSuccess = "$(\"#kozolFriendRefresh\")[0].click();" }))
+    {
+        <label>Username: </label>
+        <input type="text" name="username" />
+        <br />
+        <input type="submit" value="Delete" />
+    }
+</div>

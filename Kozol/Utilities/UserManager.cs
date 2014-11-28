@@ -237,6 +237,25 @@ namespace Kozol.Utilities {
             }
         }
 
+        public static int GetUserIdByUsername(string username)
+        {
+            using (KozolContainer db = new KozolContainer())
+            {
+                User user = db.Users
+                    .Where(u => u.Username == username)
+                    .FirstOrDefault();
+
+                if (user != null)
+                {
+                    return user.ID;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
         public static string GetFullName(string email) {
             using (KozolContainer db = new KozolContainer()) {
                 int? userId = db.Users
