@@ -34,12 +34,19 @@
             }
         };
 
-        var kozol = function () {
-            var Ω = this;
-
-            Ω.loggedIn = @(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower());
-            Ω.userId = @(Html.Raw(((int?)Session["userId"]).HasValue ? ((int)Session["userId"]).ToString() : "null").ToString());
-        };
+        var kozol = {
+            loggedIn: @(Html.Raw((bool)(Session["loggedIn"] ?? false)).ToString().ToLower()),
+            userId: @(Html.Raw(((int?)Session["userId"]).HasValue ? ((int)Session["userId"]).ToString() : "null").ToString()),
+            asValueArray: function (obj) {
+                var vals = [];
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        vals.push(obj[key]);
+                    }
+                }
+                return vals;
+            }
+        }
 
         globalScope.kozol = kozol;
         return kozol;

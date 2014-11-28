@@ -12,7 +12,6 @@
     };
 
     Ω.hub.client.receiveMessage = function (message) {
-        alert(JSON.stringify(message));
         if (Ω.channels.get(message.channelID) === undefined)
             Ω.channels.set(message.channelID, new ChannelViewModel(Ω));
         Ω.channels()[message.channelID].receiveMessage(message);
@@ -25,6 +24,6 @@
 
     Ω.init = function () {
         if (kozol.loggedIn)
-            Ω.hub.server.joinChannel(1, kozol.userId, true);
+            Ω.hub.server.joinChannel(1, kozol.userId);
     };
 }
