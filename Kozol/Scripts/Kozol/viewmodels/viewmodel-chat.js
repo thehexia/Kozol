@@ -13,7 +13,7 @@
 
     Ω.hub.client.receiveMessage = function (message) {
         if (Ω.channels.get(message.channelID) === undefined)
-            Ω.channels.set(message.channelID, new ChannelViewModel(Ω));
+            Ω.channels.set(message.channelID, new ChannelViewModel(Ω, message.channelID, message.channelName));
         Ω.channels()[message.channelID].receiveMessage(message);
         //Ω.messages.push(message);
     };

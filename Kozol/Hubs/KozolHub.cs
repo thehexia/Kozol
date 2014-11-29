@@ -12,8 +12,8 @@ namespace Kozol.Hubs {
         public async Task JoinChannel(int channelID, int userID) {
             string channelName;
             string userName;
-            using (KozolContainer db = new KozolContainer()) {
-                Channel channelObj = db.Channels
+            using (KozolContainer context = new KozolContainer()) {
+                Channel channelObj = context.Channels
                     .Where(c => c.ID == channelID)
                     .FirstOrDefault();
 
@@ -24,7 +24,7 @@ namespace Kozol.Hubs {
 
                 channelName = channelObj.Name;
 
-                User userObj = db.Users
+                User userObj = context.Users
                     .Where(u => u.ID == userID)
                     .FirstOrDefault();
 
@@ -34,18 +34,23 @@ namespace Kozol.Hubs {
                 }
 
                 userName = userObj.Username;
+
+                userObj.LastActivity = DateTime.Now;
+                context.SaveChanges();
             }
 
             await Groups.Add(Context.ConnectionId, channelID.ToString());
 
             Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new {
                 channelID = channelID,
+                channelName = channelName,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = userName + " has joined."
             });
             Clients.Caller.ReceiveMessage(new {
                 channelID = channelID,
+                channelName = channelName,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = string.Format("Joined {0}.", channelName)
@@ -54,8 +59,21 @@ namespace Kozol.Hubs {
 
         public async Task LeaveChannel(int channelID, int userID) {
             string userName;
-            using (KozolContainer db = new KozolContainer()) {
-                User userObj = db.Users
+            string channelName;
+
+            using (KozolContainer context = new KozolContainer()) {
+                Channel channelObj = context.Channels
+                    .Where(c => c.ID == channelID)
+                    .FirstOrDefault();
+
+                if (channelObj == null) {
+                    Clients.Caller.Error(string.Format("An error has occured.  The channel ID {0} does not exist in the database.", channelID));
+                    return;
+                }
+
+                channelName = channelObj.Name;
+
+                User userObj = context.Users
                     .Where(u => u.ID == userID)
                     .FirstOrDefault();
 
@@ -65,12 +83,16 @@ namespace Kozol.Hubs {
                 }
 
                 userName = userObj.Username;
+
+                userObj.LastActivity = DateTime.Now;
+                context.SaveChanges();
             }
 
             await Groups.Remove(Context.ConnectionId, channelID.ToString());
 
             Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new {
                 channelID = channelID,
+                channelName = channelName,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = userName + " has left."
@@ -82,8 +104,8 @@ namespace Kozol.Hubs {
             string channelName;
             string userName;
 
-            using (KozolContainer db = new KozolContainer()) {
-                Channel channelObj = db.Channels
+            using (KozolContainer context = new KozolContainer()) {
+                Channel channelObj = context.Channels
                     .Where(c => c.ID == channelID)
                     .FirstOrDefault();
 
@@ -94,7 +116,7 @@ namespace Kozol.Hubs {
 
                 channelName = channelObj.Name;
 
-                User userObj = db.Users
+                User userObj = context.Users
                     .Where(u => u.ID == userID)
                     .FirstOrDefault();
 
@@ -113,13 +135,16 @@ namespace Kozol.Hubs {
                     Image = null
                 };
 
-                db.Messages.Add(messageObj);
+                context.Messages.Add(messageObj);
 
-                db.SaveChanges();
+                userObj.LastActivity = DateTime.Now;
+
+                context.SaveChanges();
             }
 
-            Clients.Group(channelName).ReceiveMessage(new {
+            Clients.Group(channelID.ToString()).ReceiveMessage(new {
                 channelID = channelID,
+                channelName = channelName,
                 user = userName,
                 timestamp = timestamp,
                 message = message

@@ -1,9 +1,15 @@
-﻿<div data-bind="foreach: kozol.asValueArray(channels()), visible: kozol.loggedIn">
-    <div class="kozol-chat" data-bind="foreach: messages">
-        <div class="kozol-chat-item">
-            <span class="kozol-chat-user" data-bind="text: user"></span>&nbsp;
-            <span class="kozol-chat-timestamp" data-bind="text: moment(timestamp).format('h:mm:ss A')"></span>:&nbsp;
-            <span class="kozol-chat-message" data-bind="text: message"></span>
+﻿<div class="kozol-chat" data-bind="foreach: kozol.asValueArray(channels()), visible: kozol.loggedIn">
+    <div class="kozol-chat-channel" data-bind="attr: { id: 'kozol-chat-channel-' + ID }">
+        <div class="kozol-chat-header">
+            <span class="kozol-chat-title" data-bind="text: name"></span>
+            <span class="kozol-chat-close"></span>
+        </div>
+        <div class="kozol-chat-message-container" data-bind="foreach: messages">
+            <div class="kozol-chat-message">
+                <a class="kozol-chat-user" data-bind="text: user, attr: { href: '/User/GetUser?username=' + user }"></a>&nbsp;
+                <span class="kozol-chat-timestamp" data-bind="text: moment(timestamp).format('h:mm:ss A')"></span>:&nbsp;
+                <span class="kozol-chat-message" data-bind="text: message"></span>
+            </div>
         </div>
     </div>
 </div>
