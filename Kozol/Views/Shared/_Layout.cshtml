@@ -24,6 +24,7 @@
                         @if ((bool)(Session["loggedIn"] ?? false)) {
                         <li>@Html.ActionLink("My Profile", "EditProfile", "User", new { }, null)</li>
                         <li>@Html.ActionLink("Friends List", "FriendsList", "Friend", new { }, null)</li>
+                        <li>@Html.ActionLink("My Invites", "MyInvites", "Invite", new { }, null)</li>
                         }
                     </ul>
                 </nav>
@@ -34,6 +35,24 @@
         @RenderSection("featured", required: false)
         <section class="content-wrapper main-content clear-fix">
             @RenderBody()
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </section>
     </div>
     <footer>

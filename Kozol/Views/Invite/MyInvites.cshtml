@@ -1,0 +1,76 @@
+﻿<script src="@Url.Content("~/Scripts/jquery-2.1.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/MicrosoftMvcAjax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/crypto/jsencrypt.js")"></script>
+<script src="@Url.Content("~/Scripts/crypto/jsencrypt.min.js")"></script>
+
+@{
+    ViewBag.Title = "My Invites";
+}
+@model IEnumerable<Kozol.Models.ViewModels.InviteViewModel>
+<script>
+    var decryptSharedKey = function (sharedKey) {
+        var crypt = new JSEncrypt();
+        var privKey = $("#PrivateKey").val();
+        crypt.setKey(privKey);
+        var plaintxt = crypt.decrypt(sharedKey);
+        $("#kozol-decrypted-shared-key").text(plaintxt);
+    }
+</script>
+
+<h2>My Invites</h2>
+
+<table class="kozol-table">
+    <thead>
+        <tr>
+            <th>
+                ChannelId
+            </th>
+            <th>
+                Channel Name
+            </th>
+            <th>
+                SenderId
+            </th>
+            <th>
+                Sender
+            </th>
+            <th>
+                Sender's Key
+            </th>
+            <th>
+                Decrypted Shared Key
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var inv in Model)
+{
+    <tr>
+        <td class="kozol-channel-id">@inv.ChannelId</td>
+        <td class="kozol-channel-name">@inv.ChannelName</td>
+        <td class="kozol-sender-id">@inv.SenderId</td>
+        <td class="kozol-sender-username">@inv.SenderUsername</td>
+        <td class="kozol-sender-public-key">@inv.SenderPublicKey</td>
+        <td class="kozol-decrypted-shared-key">
+            <input type="button" onclick="decryptSharedKey('@inv.SharedKey')" value="Decrypt"/>
+            <a href="/Invite/DeleteInvite?senderId=@inv.SenderId&channelId=@inv.ChannelId">Delete</a>"
+        </td>
+        <td class="kozol-shared-key" hidden>@inv.SharedKey</td>
+    </tr>
+}
+    </tbody>
+</table>
+
+<h4>My Private Key</h4>
+<textarea id="PrivateKey" ></textarea>
+
+<h4>Shared Key</h4>
+<div id="kozol-decrypted-shared-key">
+
+</div>
+
+<br />
+<br />
+@Html.ActionLink("Issue Invite", "AddInvite")

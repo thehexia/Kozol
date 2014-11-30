@@ -35,7 +35,7 @@
         var channelList = jQuery.parseJSON(data.responseText);
         var renderList = "<table class=\"kozol-channel-info\"> <tbody class=\"kozol-scroll-container\">";
         $.each(channelList, function (idx, obj) {
-            renderList += "<tr><td class=\"kozol-channel-id\"><a href=\"/Channel/Info" + obj.ID + "</td>";
+            renderList += "<tr><td class=\"kozol-channel-id\">" + obj.ID + "</td>";
             renderList += "<td class=\"kozol-channel-name\">" + obj.Name + "</td>";
             renderList += "<td><input type=\"button\" onclick=\"setUpdateId("+ obj.ID + ",\'" + obj.Name +"\',"+ obj.Capacity + ")\" value=\"Update\"></td></tr>";
         });
@@ -85,7 +85,7 @@
 
 <div class="kozol-table-container">
     <h3>Update Channel</h3>
-    @using (Ajax.BeginForm("UpdateChannel", "Channel", new AjaxOptions { OnSuccess = "$(\"#kozolChannelRefresh\")[0].click();$(\"#kozolMyChannelRefresh\")[0].click()" }))
+    @using (Ajax.BeginForm("UpdateChannel", "Channel", new AjaxOptions { OnSuccess = "$(\"#kozolChannelRefresh\")[0].click();$(\"#kozolMyChannelRefresh\")[0].click(); alert(JSON.stringify(data));" }))
     {
         <text>ID: </text><input type="text" id="upChannelId" name="ID" class="text-box" />
         <input type="text" id="upCreatorId" name="CreatorId" value="@Session["userId"]" hidden/>  <br />
@@ -99,3 +99,22 @@
         <input type="submit" value="Update" />
     }
 </div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

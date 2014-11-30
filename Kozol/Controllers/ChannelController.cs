@@ -138,7 +138,7 @@ namespace Kozol.Controllers
                 var currentUser = db.Users.Find((int)Session["userId"]);
                 var updateTarget = db.Channels.Find(channel.ID);
                 //check if current user is an admin
-                if(!updateTarget.Administrators.Contains(currentUser))
+                if(!updateTarget.Administrators.Contains(currentUser) && updateTarget.Creator != currentUser)
                     return Json(new { success = false, reason = "userid: " + (int)Session["userId"] + " is not an admin of this channel: " + channel.ID }, 
                                 JsonRequestBehavior.AllowGet);
             }

@@ -765,10 +765,21 @@ tbody.kozol-scroll-container {
     display: block;
     float: left;
     margin: 10px;
+    height: auto;
 }
 
 .kozol-table-container .text-box {
     width: 100px;
+}
+
+.kozol-table {
+    padding: 5px;
+    border: 1px solid;
+}
+
+.kozol-table th,td {
+    padding: 5px;
+    border: 1px solid;
 }
 
 body {
