@@ -37,7 +37,8 @@
         $.each(channelList, function (idx, obj) {
             renderList += "<tr><td class=\"kozol-channel-id\">" + obj.ID + "</td>";
             renderList += "<td class=\"kozol-channel-name\">" + obj.Name + "</td>";
-            renderList += "<td><input type=\"button\" onclick=\"setUpdateId("+ obj.ID + ",\'" + obj.Name +"\',"+ obj.Capacity + ")\" value=\"Update\"></td></tr>";
+            renderList += "<td><input type=\"button\" onclick=\"setUpdateId(" + obj.ID + ",\'" + obj.Name + "\'," + obj.Capacity + ")\" value=\"Update\"></td>";
+            renderList += "</tr>";
         });
         renderList += "</tbody></table>";
         $(".my-kozol-channels").html(renderList);

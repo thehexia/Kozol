@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 using Kozol.Models;
 using Kozol.Utilities;
 
@@ -216,16 +217,21 @@ namespace Kozol.Controllers
             {
                 var channel = db.Channels.Find(channelId);
                 var messages = from Messages in db.Messages
-                               where Messages.Destination == channel
+                               where Messages.Destination.ID == channelId
                                select Messages;
 
                 //delte the messages in the channel first
-                foreach (var msg in messages)
+                foreach (Message msg in messages)
                 {
                     db.Messages.Remove(msg);
                 }
                 //delete the channel
+                channel.Administrators.Clear();
+                channel.Speakers.Clear();
+                db.SaveChanges();
                 db.Channels.Remove(channel);
+                db.SaveChanges();
+
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e) { return Json(new { success = false }, JsonRequestBehavior.AllowGet); }
