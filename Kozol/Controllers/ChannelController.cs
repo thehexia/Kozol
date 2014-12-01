@@ -210,6 +210,27 @@ namespace Kozol.Controllers
             return Json(channels.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult DeleteChannel(int channelId)
+        {
+            try
+            {
+                var channel = db.Channels.Find(channelId);
+                var messages = from Messages in db.Messages
+                               where Messages.Destination == channel
+                               select Messages;
+
+                //delte the messages in the channel first
+                foreach (var msg in messages)
+                {
+                    db.Messages.Remove(msg);
+                }
+                //delete the channel
+                db.Channels.Remove(channel);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e) { return Json(new { success = false }, JsonRequestBehavior.AllowGet); }
+        }
+
         public JsonResult AddAdmin(int adminID, int channelID)
         {
             Channel channel;
