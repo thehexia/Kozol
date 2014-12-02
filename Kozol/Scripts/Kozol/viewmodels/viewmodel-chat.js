@@ -16,6 +16,12 @@
         Ω.hub.server.sendMessage(channel, kozol.userId, text);
     };
 
+    Ω.hub.client.receiveHistory = function (obj) {
+        if (Ω.channels.get(obj.channelID) === undefined)
+            Ω.channels.set(obj.channelID, new ChannelViewModel(Ω, obj.channelID, obj.channelName));
+        Ω.channels()[obj.channelID].receiveHistory(obj.messages);
+    };
+
     Ω.hub.client.receiveMessage = function (message) {
         if (Ω.channels.get(message.channelID) === undefined)
             Ω.channels.set(message.channelID, new ChannelViewModel(Ω, message.channelID, message.channelName));

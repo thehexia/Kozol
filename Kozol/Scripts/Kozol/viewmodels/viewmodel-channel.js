@@ -15,6 +15,15 @@
         Ω.message('');
     };
 
+    Ω.receiveHistory = function (messages) {
+        $.each(messages, function (i, message) {
+            Ω.receiveMessage(message);
+        });
+
+        var obj = $('#kozol-chat-channel-' + Ω.ID + ' .kozol-chat-message-container');
+        obj.scrollTop(obj[0].scrollHeight);
+    };
+
     Ω.receiveMessage = function (message) {
         var obj = $('#kozol-chat-channel-' + Ω.ID + ' .kozol-chat-message-container');
         var atBottom = obj.scrollTop() + obj.height() === obj.parent().height();

@@ -8,10 +8,19 @@ using Kozol.Models;
 
 namespace Kozol.Hubs {
     public class KozolHub : Hub {
+        public class MessageObject {
+            public int channelID;
+            public string channelName;
+            public string user;
+            public DateTime timestamp;
+            public string message;
+        }
 
         public async Task JoinChannel(int channelID, int userID) {
             string channelName;
             string userName;
+            List<MessageObject> history = null;
+            
             using (KozolContainer context = new KozolContainer()) {
                 Channel channelObj = context.Channels
                     .Where(c => c.ID == channelID)
@@ -37,24 +46,44 @@ namespace Kozol.Hubs {
 
                 userObj.LastActivity = DateTime.Now;
                 context.SaveChanges();
+
+                history = channelObj.Messages
+                    .OrderBy(m => m.Timestamp)
+                    .Select(m => new MessageObject() {
+                        channelID = channelID,
+                        channelName = channelName,
+                        user = m.Sender.Username,
+                        timestamp = m.Timestamp,
+                        message = m.Text
+                    })
+                    .ToList();
             }
 
             await Groups.Add(Context.ConnectionId, channelID.ToString());
 
-            Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new {
+            Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new MessageObject() {
                 channelID = channelID,
                 channelName = channelName,
                 user = "*",
                 timestamp = DateTime.Now,
                 message = userName + " has joined."
             });
-            Clients.Caller.ReceiveMessage(new {
-                channelID = channelID,
-                channelName = channelName,
-                user = "*",
-                timestamp = DateTime.Now,
-                message = string.Format("Joined {0}.", channelName)
-            });
+
+            if (history == null) {
+                Clients.Caller.ReceiveMessage(new MessageObject() {
+                    channelID = channelID,
+                    channelName = channelName,
+                    user = "*",
+                    timestamp = DateTime.Now,
+                    message = string.Format("Joined {0}.", channelName)
+                });
+            } else {
+                Clients.Caller.ReceiveHistory(new {
+                    channelID = channelID,
+                    channelName = channelName,
+                    messages = history.ToArray()
+                });
+            }
         }
 
         public async Task LeaveChannel(int channelID, int userID) {
@@ -90,7 +119,7 @@ namespace Kozol.Hubs {
 
             await Groups.Remove(Context.ConnectionId, channelID.ToString());
 
-            Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new {
+            Clients.OthersInGroup(channelID.ToString()).ReceiveMessage(new MessageObject() {
                 channelID = channelID,
                 channelName = channelName,
                 user = "*",
@@ -142,7 +171,7 @@ namespace Kozol.Hubs {
                 context.SaveChanges();
             }
 
-            Clients.Group(channelID.ToString()).ReceiveMessage(new {
+            Clients.Group(channelID.ToString()).ReceiveMessage(new MessageObject() {
                 channelID = channelID,
                 channelName = channelName,
                 user = userName,
