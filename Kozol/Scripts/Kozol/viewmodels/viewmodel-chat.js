@@ -2,10 +2,15 @@
     var Ω = this; // Alt + 234
 
     Ω.hub = $.connection.kozolHub;
-
+;
     Ω.channels = ko.observable({});
 
-    Ω.messages = ko.observableArray();
+    Ω.newChannel = ko.observable('');
+
+    Ω.joinChannel = function () {
+        Ω.hub.server.joinChannel(Ω.newChannel(), kozol.userId);
+        Ω.newChannel('');
+    };
 
     Ω.sendMessage = function (channel, text) {
         Ω.hub.server.sendMessage(channel, kozol.userId, text);
@@ -15,7 +20,6 @@
         if (Ω.channels.get(message.channelID) === undefined)
             Ω.channels.set(message.channelID, new ChannelViewModel(Ω, message.channelID, message.channelName));
         Ω.channels()[message.channelID].receiveMessage(message);
-        //Ω.messages.push(message);
     };
 
     Ω.hub.client.error = function (message) {
@@ -23,6 +27,17 @@
     };
 
     Ω.init = function () {
+        //$.ajax({
+        //    url: '/Channel/ChannelList',
+        //    type: "GET",
+        //    dataType: "json",
+        //    success: function (json) {
+        //        Ω.allChannels($.map(json, function (elem, i) {
+        //            return elem.Name;
+        //        }));
+        //    }
+        //});
+
         if (kozol.loggedIn)
             Ω.hub.server.joinChannel(1, kozol.userId);
     };

@@ -7,6 +7,13 @@
     Ω.name = channelName;
 
     Ω.messages = ko.observableArray();
+    Ω.message = ko.observable();
+    Ω.minimized = ko.observable(false);
+
+    Ω.sendMessage = function () {
+        Ω.chat.sendMessage(Ω.ID, Ω.message());
+        Ω.message('');
+    };
 
     Ω.receiveMessage = function (message) {
         var obj = $('#kozol-chat-channel-' + Ω.ID + ' .kozol-chat-message-container');
